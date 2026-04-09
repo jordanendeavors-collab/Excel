@@ -1,0 +1,1569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Excel Mastery Academy v2 | AAA Smart Security</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&family=Exo+2:wght@300;400;600;800;900&display=swap');
+
+:root {
+  --red:#CC0000;--red-b:#FF1A1A;--red-d:#880000;
+  --black:#0A0A0A;--dark:#111;--card:#161616;--card2:#1A1A1A;
+  --border:#252525;--border2:#2a2a2a;
+  --silver:#C0C0C0;--white:#F0F0F0;--dim:#777;--dim2:#999;
+  --green:#00CC66;--yellow:#FFCC00;--blue:#0088FF;--purple:#AA55FF;--orange:#FF8800;
+  --mono:'Share Tech Mono',monospace;--head:'Exo 2',sans-serif;--body:'Rajdhani',sans-serif;
+  --glow:0 0 20px rgba(204,0,0,.4);--glow-sm:0 0 8px rgba(204,0,0,.3);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--black);color:var(--white);font-family:var(--body);font-size:16px;overflow-x:hidden;min-height:100vh}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(204,0,0,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(204,0,0,.03) 1px,transparent 1px);background-size:44px 44px;pointer-events:none;z-index:0}
+
+/* ── SCREENS ── */
+.screen{display:none !important;position:relative;z-index:1}
+.screen.active{display:block !important}
+#loginScreen.active{display:flex !important}
+#appScreen.active{display:flex !important}
+
+/* ══════════════════════════════
+   LOGIN
+══════════════════════════════ */
+#loginScreen{min-height:100vh;display:flex;align-items:center;justify-content:center}
+.login-wrap{width:100%;max-width:460px;padding:20px}
+.login-logo{text-align:center;margin-bottom:36px}
+.login-logo .lo-icon{font-size:60px;display:block;margin-bottom:10px;filter:drop-shadow(0 0 24px rgba(204,0,0,.7))}
+.login-logo h1{font-family:var(--head);font-size:30px;font-weight:900;letter-spacing:4px;text-transform:uppercase}
+.login-logo h1 span{color:var(--red-b)}
+.login-logo p{font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:2px;margin-top:4px}
+.login-card{background:var(--card);border:1px solid var(--border2);border-top:2px solid var(--red);border-radius:6px;padding:36px;position:relative;overflow:hidden}
+.login-card::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--red-b),transparent)}
+.fgroup{margin-bottom:18px}
+.fgroup label{display:block;font-family:var(--mono);font-size:11px;color:var(--red);letter-spacing:2px;text-transform:uppercase;margin-bottom:7px}
+.fgroup select,.fgroup input{width:100%;background:#0D0D0D;border:1px solid var(--border2);border-radius:4px;color:var(--white);font-family:var(--mono);font-size:14px;padding:12px 16px;outline:none;transition:border-color .2s,box-shadow .2s}
+.fgroup select:focus,.fgroup input:focus{border-color:var(--red);box-shadow:var(--glow-sm)}
+.fgroup select option{background:#111}
+.hint{font-family:var(--mono);font-size:10px;color:var(--dim);margin-top:6px;letter-spacing:1px}
+.btn-login{width:100%;background:var(--red);border:none;color:#fff;font-family:var(--head);font-size:16px;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:14px;border-radius:4px;cursor:pointer;transition:background .2s,box-shadow .2s,transform .1s;margin-top:8px}
+.btn-login:hover{background:var(--red-b);box-shadow:var(--glow);transform:translateY(-1px)}
+.btn-login:active{transform:translateY(0)}
+.lerr{color:var(--red-b);font-family:var(--mono);font-size:12px;text-align:center;margin-top:12px;display:none}
+.tier-row{display:flex;gap:8px;justify-content:center;margin-top:24px;padding-top:18px;border-top:1px solid var(--border)}
+.tbadge{font-family:var(--mono);font-size:10px;padding:4px 12px;border-radius:2px;border:1px solid;letter-spacing:1px}
+.tbadge.g{color:var(--green);border-color:var(--green)}
+.tbadge.y{color:var(--yellow);border-color:var(--yellow)}
+.tbadge.r{color:var(--red-b);border-color:var(--red-b)}
+
+/* ══════════════════════════════
+   APP SHELL
+══════════════════════════════ */
+#appScreen{min-height:100vh;display:flex;flex-direction:column}
+.app-header{background:var(--dark);border-bottom:2px solid var(--red);padding:0 24px;height:58px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;flex-shrink:0}
+.hbrand{display:flex;align-items:center;gap:10px}
+.hbrand h2{font-family:var(--head);font-size:18px;font-weight:900;letter-spacing:2px}
+.hbrand h2 span{color:var(--red-b)}
+.hright{display:flex;align-items:center;gap:14px}
+.uchip{display:flex;align-items:center;gap:8px;background:rgba(204,0,0,.08);border:1px solid rgba(204,0,0,.25);border-radius:20px;padding:6px 14px}
+.uchip .uname{font-family:var(--mono);font-size:12px}
+.utier{font-family:var(--mono);font-size:10px;padding:2px 8px;border-radius:10px;font-weight:700}
+.ut-b{background:rgba(0,204,102,.2);color:var(--green)}
+.ut-i{background:rgba(255,204,0,.2);color:var(--yellow)}
+.ut-a{background:rgba(204,0,0,.2);color:var(--red-b)}
+.btn-so{background:transparent;border:1px solid var(--border2);color:var(--dim);font-family:var(--mono);font-size:11px;padding:6px 14px;border-radius:3px;cursor:pointer;letter-spacing:1px;transition:all .2s}
+.btn-so:hover{border-color:var(--red);color:var(--red)}
+
+/* ── NAV ── */
+.app-nav{background:var(--dark);border-bottom:1px solid var(--border);padding:0 20px;display:flex;gap:2px;overflow-x:auto;flex-shrink:0}
+.ntab{background:transparent;border:none;color:var(--dim);font-family:var(--body);font-size:13px;font-weight:600;letter-spacing:1px;padding:13px 16px;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap;text-transform:uppercase}
+.ntab:hover{color:var(--white)}
+.ntab.active{color:var(--red-b);border-bottom-color:var(--red-b)}
+
+/* ── CONTENT ── */
+.app-content{flex:1;padding:28px 24px;max-width:1280px;margin:0 auto;width:100%}
+.panel{display:none;animation:fadeUp .3s ease}
+.panel.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── SECTION HEADER ── */
+.sec-hdr{display:flex;align-items:center;gap:14px;margin-bottom:26px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.sec-hdr .sico{font-size:34px;filter:drop-shadow(0 0 10px rgba(204,0,0,.5))}
+.sec-hdr h2{font-family:var(--head);font-size:26px;font-weight:900;letter-spacing:2px}
+.sec-hdr p{color:var(--dim2);font-size:13px;margin-top:2px}
+
+/* ── CARDS ── */
+.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px;margin-bottom:26px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:5px;padding:22px;transition:border-color .2s,transform .2s,box-shadow .2s;cursor:pointer;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--red);transform:scaleY(0);transition:transform .2s;transform-origin:bottom}
+.card:hover::before{transform:scaleY(1)}
+.card:hover{border-color:rgba(204,0,0,.4);transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,.5)}
+.card .cico{font-size:30px;margin-bottom:10px}
+.card h3{font-family:var(--head);font-size:17px;font-weight:700;margin-bottom:5px}
+.card p{color:var(--dim2);font-size:13px;line-height:1.5}
+.card-meta{display:flex;align-items:center;gap:8px;margin-top:12px}
+
+/* ── BADGES ── */
+.badge{font-family:var(--mono);font-size:10px;padding:3px 8px;border-radius:2px;border:1px solid;letter-spacing:1px;text-transform:uppercase}
+.bg{color:var(--green);border-color:rgba(0,204,102,.4);background:rgba(0,204,102,.07)}
+.by{color:var(--yellow);border-color:rgba(255,204,0,.4);background:rgba(255,204,0,.07)}
+.br{color:var(--red-b);border-color:rgba(204,0,0,.4);background:rgba(204,0,0,.07)}
+.bb{color:var(--blue);border-color:rgba(0,136,255,.4);background:rgba(0,136,255,.07)}
+.bp{color:var(--purple);border-color:rgba(170,85,255,.4);background:rgba(170,85,255,.07)}
+.bo{color:var(--orange);border-color:rgba(255,136,0,.4);background:rgba(255,136,0,.07)}
+
+/* ── STAT ROW ── */
+.stat-row{display:flex;gap:14px;margin-bottom:26px;flex-wrap:wrap}
+.stat-box{background:var(--card);border:1px solid var(--border);border-radius:5px;padding:16px 22px;min-width:130px;flex:1}
+.stat-box .sv{font-family:var(--head);font-size:30px;font-weight:900;color:var(--red-b);line-height:1}
+.stat-box .sl{font-family:var(--mono);font-size:10px;color:var(--dim);letter-spacing:1px;text-transform:uppercase;margin-top:4px}
+
+/* ── NOTICE ── */
+.notice{background:rgba(255,204,0,.05);border:1px solid rgba(255,204,0,.2);border-radius:3px;padding:11px 16px;font-size:13px;color:var(--yellow);margin-bottom:18px;display:flex;gap:10px;align-items:center}
+
+/* ── PROGRESS ── */
+.prow{margin-bottom:12px}
+.plabel{display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px;color:#CCC}
+.plabel span:last-child{font-family:var(--mono);font-size:11px;color:var(--red)}
+.pbar{height:5px;background:var(--border);border-radius:3px;overflow:hidden}
+.pfill{height:100%;background:linear-gradient(90deg,var(--red-d),var(--red-b));border-radius:3px;transition:width 1.2s ease}
+
+/* ── DIVIDER ── */
+.div{height:1px;background:var(--border);margin:22px 0}
+
+/* ══════════════════════════════
+   SLIDE OVERLAY
+══════════════════════════════ */
+.slide-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.96);z-index:500;flex-direction:column}
+.slide-ov.open{display:flex}
+.sl-hdr{background:var(--dark);border-bottom:1px solid var(--red);padding:12px 24px;display:flex;align-items:center;justify-content:space-between}
+.sl-hdr h3{font-family:var(--head);font-size:16px;font-weight:700}
+.sl-prog{font-family:var(--mono);font-size:12px;color:var(--red)}
+.btn-cls{background:transparent;border:1px solid var(--border2);color:var(--dim);width:30px;height:30px;border-radius:3px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.btn-cls:hover{border-color:var(--red);color:var(--red)}
+.sl-body{flex:1;display:flex;align-items:center;justify-content:center;padding:28px;overflow-y:auto}
+.sl-content{background:var(--card);border:1px solid var(--border2);border-top:3px solid var(--red);border-radius:6px;width:100%;max-width:820px;padding:44px;min-height:380px;position:relative}
+.sl-num{position:absolute;top:14px;right:18px;font-family:var(--mono);font-size:11px;color:var(--dim)}
+.sl-content h2{font-family:var(--head);font-size:30px;font-weight:900;margin-bottom:6px}
+.sl-sub{font-family:var(--mono);font-size:11px;color:var(--red);letter-spacing:2px;text-transform:uppercase;margin-bottom:24px}
+.sl-content p{color:#CCC;line-height:1.7;font-size:14px;margin-bottom:14px}
+.sl-content ul{list-style:none;margin-bottom:18px}
+.sl-content ul li{padding:8px 0 8px 20px;position:relative;color:#CCC;font-size:14px;line-height:1.5;border-bottom:1px solid rgba(255,255,255,.04)}
+.sl-content ul li::before{content:'▸';position:absolute;left:0;color:var(--red)}
+.fbox{background:#0D0D0D;border:1px solid rgba(204,0,0,.3);border-left:3px solid var(--red);border-radius:3px;padding:14px 18px;margin:14px 0;font-family:var(--mono);font-size:14px;color:var(--green);line-height:1.8}
+.fbox .flbl{font-size:10px;color:var(--dim);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;font-family:var(--mono)}
+.tbox{background:rgba(255,204,0,.05);border:1px solid rgba(255,204,0,.2);border-radius:3px;padding:12px 16px;margin:14px 0;display:flex;gap:10px;align-items:flex-start}
+.tbox .ti{font-size:18px;flex-shrink:0}
+.tbox p{color:#DDD;font-size:13px;margin:0}
+.scut-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px;margin:14px 0}
+.scut-item{background:#0D0D0D;border:1px solid var(--border);border-radius:3px;padding:9px 12px;display:flex;justify-content:space-between;align-items:center}
+.scut-item .kbadge{font-family:var(--mono);font-size:11px;color:var(--yellow);background:rgba(255,204,0,.1);border:1px solid rgba(255,204,0,.3);border-radius:3px;padding:2px 8px;white-space:nowrap;flex-shrink:0}
+.scut-item .kdesc{font-size:12px;color:var(--dim2);flex:1;margin-right:8px}
+.img-mock{background:#0D0D0D;border:1px solid var(--border2);border-radius:4px;padding:20px;margin:14px 0;text-align:center;color:var(--dim);font-family:var(--mono);font-size:12px}
+.step-ol{list-style:none;counter-reset:steps;margin:14px 0}
+.step-ol li{counter-increment:steps;display:flex;gap:12px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:14px;color:#CCC}
+.step-ol li::before{content:counter(steps);min-width:24px;height:24px;border-radius:50%;background:rgba(204,0,0,.15);border:1px solid rgba(204,0,0,.4);color:var(--red);font-family:var(--mono);font-size:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.sl-nav{background:var(--dark);border-top:1px solid var(--border);padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
+.sl-nbtn{background:var(--card);border:1px solid var(--border2);color:var(--white);font-family:var(--body);font-size:14px;font-weight:600;letter-spacing:1px;padding:9px 22px;border-radius:3px;cursor:pointer;transition:all .2s}
+.sl-nbtn:hover:not(:disabled){border-color:var(--red);color:var(--red)}
+.sl-nbtn:disabled{opacity:.3;cursor:default}
+.dots{display:flex;gap:6px}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--border);cursor:pointer;transition:background .2s}
+.dot.active{background:var(--red)}
+
+/* ══════════════════════════════
+   MATH LAB
+══════════════════════════════ */
+.mlab{background:var(--card);border:1px solid var(--border);border-top:2px solid var(--red);border-radius:5px;padding:26px;margin-bottom:18px}
+.mlab h3{font-family:var(--head);font-size:19px;font-weight:700;margin-bottom:5px}
+.mlab .ldesc{color:var(--dim2);font-size:13px;margin-bottom:18px}
+.finput{margin-bottom:10px}
+.finput label{font-family:var(--mono);font-size:10px;color:var(--dim);display:block;margin-bottom:5px;letter-spacing:1px;text-transform:uppercase}
+.finput input,.finput textarea{width:100%;background:#0D0D0D;border:1px solid var(--border2);border-radius:3px;color:var(--white);font-family:var(--mono);font-size:13px;padding:10px 13px;outline:none;transition:border-color .2s;resize:vertical}
+.finput input:focus,.finput textarea:focus{border-color:var(--red)}
+.finput input::placeholder,.finput textarea::placeholder{color:var(--dim)}
+.calc-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:10px}
+.btn-calc{background:var(--red);border:none;color:#fff;font-family:var(--head);font-size:14px;font-weight:700;letter-spacing:2px;padding:10px 22px;border-radius:3px;cursor:pointer;transition:background .2s}
+.btn-calc:hover{background:var(--red-b)}
+.rdisp{background:#0D0D0D;border:1px solid rgba(0,204,102,.3);border-radius:3px;padding:12px 16px;font-family:var(--mono);font-size:14px;color:var(--green);flex:1;min-width:180px;min-height:46px;display:flex;align-items:center;gap:8px}
+
+/* ══════════════════════════════
+   SHORTCUTS
+══════════════════════════════ */
+.sbar{display:flex;gap:12px;margin-bottom:22px}
+.sbar input{flex:1;background:var(--card);border:1px solid var(--border2);border-radius:3px;color:var(--white);font-family:var(--mono);font-size:13px;padding:11px 15px;outline:none;transition:border-color .2s}
+.sbar input:focus{border-color:var(--red)}
+.sbar input::placeholder{color:var(--dim)}
+.scut-sec{margin-bottom:26px}
+.scut-sec h3{font-family:var(--head);font-size:17px;font-weight:700;color:var(--red-b);margin-bottom:12px}
+.scut-tbl{width:100%;border-collapse:collapse;font-size:13px}
+.scut-tbl th{text-align:left;padding:9px 13px;background:#111;color:var(--dim);font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;border-bottom:1px solid var(--border)}
+.scut-tbl td{padding:9px 13px;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:top}
+.scut-tbl tr:hover td{background:rgba(255,255,255,.02)}
+.kbdg{display:inline-block;background:rgba(255,204,0,.1);border:1px solid rgba(255,204,0,.4);color:var(--yellow);font-family:var(--mono);font-size:11px;padding:2px 8px;border-radius:3px;white-space:nowrap}
+.scut-tbl td:nth-child(2){color:#CCC}
+.scut-tbl td:nth-child(3){color:var(--dim2);font-size:12px}
+
+/* ══════════════════════════════
+   QUICK TASKS
+══════════════════════════════ */
+.qt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:13px}
+.qt-card{background:var(--card);border:1px solid var(--border);border-radius:5px;padding:20px;transition:all .2s;position:relative}
+.qt-card:hover{border-color:rgba(204,0,0,.4);box-shadow:0 4px 20px rgba(0,0,0,.35)}
+.qt-card .qico{font-size:26px;margin-bottom:9px}
+.qt-card h4{font-family:var(--head);font-size:15px;font-weight:700;margin-bottom:5px}
+.qt-card p{font-size:13px;color:var(--dim2);line-height:1.5}
+.qt-formula{background:#0D0D0D;border:1px solid var(--border);border-radius:3px;padding:7px 11px;font-family:var(--mono);font-size:11px;color:var(--green);margin-top:10px}
+.qt-meta{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
+.qt-time{font-family:var(--mono);font-size:10px;color:var(--dim);letter-spacing:1px}
+.qt-done{width:20px;height:20px;border-radius:50%;border:1px solid var(--border2);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:11px;transition:all .2s}
+.qt-done.checked{background:var(--green);border-color:var(--green);color:#000}
+
+/* ══════════════════════════════
+   DATABASE TRACK
+══════════════════════════════ */
+.db-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:760px){.db-grid{grid-template-columns:1fr}}
+.db-mod{background:var(--card);border:1px solid var(--border);border-radius:5px;padding:22px}
+.db-mod h3{font-family:var(--head);font-size:17px;font-weight:700;margin-bottom:4px}
+.db-mod .msub{font-family:var(--mono);font-size:10px;color:var(--red);letter-spacing:1px;text-transform:uppercase;margin-bottom:14px}
+.slist{list-style:none}
+.slist li{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:13px;color:#CCC}
+.snum{width:22px;height:22px;border-radius:50%;background:rgba(204,0,0,.12);border:1px solid rgba(204,0,0,.35);color:var(--red);font-family:var(--mono);font-size:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+
+/* ══════════════════════════════
+   FORMULA REF
+══════════════════════════════ */
+.ftbl{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:24px}
+.ftbl th{text-align:left;padding:9px 13px;background:#111;color:var(--dim);font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;border-bottom:1px solid var(--border)}
+.ftbl td{padding:9px 13px;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:top}
+.ftbl tr:hover td{background:rgba(255,255,255,.02)}
+.fname{color:var(--green);font-family:var(--mono);font-weight:bold}
+
+/* ══════════════════════════════
+   LOCK OVERLAY
+══════════════════════════════ */
+.lk-wrap{position:relative;overflow:hidden}
+.lock-sh{position:absolute;inset:0;background:rgba(10,10,10,.88);display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:5px;z-index:2}
+.lock-sh .lkico{font-size:32px;margin-bottom:7px}
+.lock-sh p{font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:1px}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:var(--dark)}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--red-d)}
+@keyframes pulse-r{0%,100%{box-shadow:0 0 0 0 rgba(204,0,0,.4)}50%{box-shadow:0 0 0 8px rgba(204,0,0,0)}}
+.pulse{animation:pulse-r 2s infinite}
+
+/* ══════════════════════════════
+   EXCEL SANDBOX
+══════════════════════════════ */
+.xl-sheet{background:#fff;border:1px solid #ccc;border-radius:4px;overflow:hidden;margin-bottom:24px;box-shadow:0 4px 20px rgba(0,0,0,.5)}
+.xl-toolbar{background:#217346;padding:6px 12px;display:flex;align-items:center;gap:10px}
+.xl-toolbar span{color:#fff;font-family:var(--mono);font-size:11px;letter-spacing:1px}
+.xl-toolbar .xl-logo{background:#fff;color:#217346;font-weight:900;font-size:12px;padding:2px 6px;border-radius:2px;font-family:var(--head)}
+.xl-ribbon{background:#f3f3f3;border-bottom:1px solid #d0d0d0;padding:4px 10px;display:flex;gap:8px;align-items:center}
+.xl-ribbon-btn{background:#fff;border:1px solid #ccc;border-radius:2px;font-size:11px;padding:2px 8px;color:#333;cursor:default;font-family:sans-serif}
+.xl-ribbon-btn.active{background:#217346;color:#fff;border-color:#1a5c38}
+.xl-formulabar{background:#fff;border-bottom:1px solid #d0d0d0;padding:4px 8px;display:flex;align-items:center;gap:8px}
+.xl-namebox{background:#fff;border:1px solid #aaa;border-radius:2px;font-family:monospace;font-size:12px;color:#333;padding:2px 6px;width:60px;text-align:center}
+.xl-fx{color:#888;font-size:14px;padding:0 4px}
+.xl-formulabar-input{flex:1;font-family:monospace;font-size:13px;color:#333;border:none;outline:none;background:transparent;cursor:text}
+.xl-grid{overflow-x:auto}
+.xl-table{border-collapse:collapse;width:100%;min-width:500px}
+.xl-table th{background:#f3f3f3;border:1px solid #d0d0d0;text-align:center;font-size:11px;color:#555;padding:3px 8px;font-family:sans-serif;font-weight:normal;min-width:100px;position:sticky;top:0}
+.xl-table th.row-hdr{width:32px;min-width:32px;background:#f3f3f3}
+.xl-table td{border:1px solid #d0d0d0;font-size:13px;color:#222;padding:3px 8px;font-family:monospace;white-space:nowrap;min-width:100px}
+.xl-table td.row-hdr{background:#f3f3f3;text-align:center;color:#555;font-size:11px;font-family:sans-serif}
+.xl-table td.selected{background:#e8f0fe;border:2px solid #1a73e8}
+.xl-table td.formula-cell{background:#f0fff4;color:#1a5c38;font-weight:bold}
+.xl-table td.error-cell{background:#fff0f0;color:#cc0000;font-weight:bold}
+.xl-table td.header-cell{background:#217346;color:#fff;font-weight:bold;font-family:sans-serif;text-align:center}
+.xl-table td.num-cell{text-align:right}
+.xl-table td.editable-cell{background:#fffde7;cursor:text}
+.xl-status{background:#f3f3f3;border-top:1px solid #d0d0d0;padding:3px 10px;font-size:11px;color:#555;font-family:sans-serif;display:flex;gap:16px}
+/* sandbox try-it */
+.sandbox-wrap{background:var(--card);border:1px solid var(--border);border-top:2px solid var(--red);border-radius:5px;padding:24px;margin-bottom:20px}
+.sandbox-wrap h3{font-family:var(--head);font-size:19px;font-weight:700;margin-bottom:6px}
+.sandbox-desc{color:var(--dim2);font-size:13px;margin-bottom:18px}
+.try-row{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;margin-bottom:14px}
+.try-field{flex:1;min-width:220px}
+.try-field label{font-family:var(--mono);font-size:10px;color:var(--dim);display:block;margin-bottom:5px;letter-spacing:1px;text-transform:uppercase}
+.try-field input{width:100%;background:#0D0D0D;border:1px solid var(--border2);border-radius:3px;color:var(--white);font-family:var(--mono);font-size:14px;padding:10px 13px;outline:none;transition:border-color .2s}
+.try-field input:focus{border-color:var(--red)}
+.try-field input::placeholder{color:var(--dim)}
+.btn-try{background:var(--red);border:none;color:#fff;font-family:var(--head);font-size:14px;font-weight:700;letter-spacing:2px;padding:10px 22px;border-radius:3px;cursor:pointer;transition:background .2s;white-space:nowrap}
+.btn-try:hover{background:var(--red-b)}
+.result-panel{background:#0D0D0D;border-radius:4px;padding:16px;margin-top:4px}
+.result-panel .res-label{font-family:var(--mono);font-size:10px;color:var(--dim);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px}
+.result-panel .res-val{font-family:var(--mono);font-size:16px;color:var(--green)}
+.result-panel .res-val.err{color:var(--red-b)}
+.result-panel .res-explain{font-size:13px;color:#CCC;margin-top:8px;line-height:1.6}
+.error-examples{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin-top:8px}
+.err-card{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--red-b);border-radius:4px;padding:14px}
+.err-card h4{font-family:var(--mono);font-size:13px;color:var(--red-b);margin-bottom:6px}
+.err-card .err-input{font-family:var(--mono);font-size:12px;color:var(--yellow);background:#0D0D0D;padding:4px 8px;border-radius:2px;margin-bottom:6px;display:block}
+.err-card .err-output{font-family:var(--mono);font-size:13px;color:var(--red-b);margin-bottom:6px;font-weight:bold}
+.err-card .err-why{font-size:12px;color:var(--dim2);line-height:1.5}
+.good-card{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--green);border-radius:4px;padding:14px}
+.good-card h4{font-family:var(--mono);font-size:13px;color:var(--green);margin-bottom:6px}
+.good-card .good-input{font-family:var(--mono);font-size:12px;color:var(--yellow);background:#0D0D0D;padding:4px 8px;border-radius:2px;margin-bottom:6px;display:block}
+.good-card .good-output{font-family:var(--mono);font-size:13px;color:var(--green);margin-bottom:6px;font-weight:bold}
+.good-card .good-why{font-size:12px;color:var(--dim2);line-height:1.5}
+.compare-table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
+.compare-table th{background:#111;padding:8px 12px;text-align:left;font-family:var(--mono);font-size:10px;color:var(--dim);letter-spacing:2px;text-transform:uppercase;border-bottom:1px solid var(--border)}
+.compare-table td{padding:8px 12px;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:top}
+.compare-table .c-formula{font-family:var(--mono);font-size:12px;color:var(--yellow)}
+.compare-table .c-result-ok{color:var(--green);font-family:var(--mono)}
+.compare-table .c-result-err{color:var(--red-b);font-family:var(--mono)}
+.compare-table .c-explain{color:var(--dim2);font-size:12px}
+
+</style>
+</head>
+<body>
+
+<!-- ════════ LOGIN ════════ -->
+<div id="loginScreen" class="screen active">
+  <div class="login-wrap">
+    <div class="login-logo">
+      <span class="lo-icon">📊</span>
+      <h1>Excel <span>Mastery</span> Academy</h1>
+      <p>AAA SMART SECURITY · OPERATIONS TRAINING · v2.0</p>
+    </div>
+    <div class="login-card">
+      <div class="fgroup">
+        <label>Access Level</label>
+        <select id="loginTier">
+          <option value="">— Select Your Level —</option>
+          <option value="beginner">Beginner — New to Excel</option>
+          <option value="intermediate">Intermediate — Formulas & Functions</option>
+          <option value="advanced">Advanced — Database & Power Tools</option>
+        </select>
+      </div>
+      <div class="fgroup">
+        <label>Name / Employee ID</label>
+        <input type="text" id="loginName" placeholder="Your name or ID" />
+      </div>
+      <div class="fgroup">
+        <label>Access Code</label>
+        <input type="password" id="loginPass" placeholder="••••••••" />
+        <div class="hint">ALL LEVELS: ssu2026</div>
+      </div>
+      <button class="btn-login pulse" onclick="doLogin()">ENTER TRAINING PORTAL</button>
+      <div class="lerr" id="lerr">⚠ Invalid credentials. Check level + access code.</div>
+      <div class="tier-row">
+        <span class="tbadge g">BEGINNER</span>
+        <span class="tbadge y">INTERMEDIATE</span>
+        <span class="tbadge r">ADVANCED</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ APP ════════ -->
+<div id="appScreen" class="screen">
+  <header class="app-header">
+    <div class="hbrand">
+      <span style="font-size:22px">📊</span>
+      <h2>Excel <span>Mastery</span> v2</h2>
+    </div>
+    <div class="hright">
+      <div class="uchip">
+        <span class="uname" id="dName">—</span>
+        <span class="utier" id="dTier">—</span>
+      </div>
+      <button class="btn-so" onclick="doSignout()">SIGN OUT</button>
+    </div>
+  </header>
+
+  <nav class="app-nav">
+    <button class="ntab active" onclick="switchTab('dashboard',this)">🏠 Dashboard</button>
+    <button class="ntab" onclick="switchTab('slides',this)">📽 Slides</button>
+    <button class="ntab" onclick="switchTab('mathlab',this)">🔬 Math Lab</button>
+    <button class="ntab" onclick="switchTab('shortcuts',this)">⚡ Shortcuts</button>
+    <button class="ntab" onclick="switchTab('quicktasks',this)">✅ Quick Tasks</button>
+    <button class="ntab" onclick="switchTab('database',this)">🗄 DB Track</button>
+    <button class="ntab" onclick="switchTab('formulas',this)">📐 Formula Ref</button>
+    <button class="ntab" onclick="switchTab('pivot',this)">🔄 Pivot Deep Dive</button>
+    <button class="ntab" onclick="switchTab('charts',this)">📈 Charts</button>
+    <button class="ntab" onclick="switchTab('validation',this)">🛡 Validation</button>
+    <button class="ntab" onclick="switchTab('cfmt',this)">🎨 Cond. Format</button>
+    <button class="ntab" onclick="switchTab('powerbi',this)">🌐 Power BI</button>
+    <button class="ntab" onclick="switchTab('sandbox',this)">🧪 Formula Sandbox</button>
+  </nav>
+
+  <main class="app-content">
+
+    <!-- DASHBOARD -->
+    <div id="panel-dashboard" class="panel active">
+      <div class="sec-hdr">
+        <span class="sico">🏠</span>
+        <div><h2 id="dashTitle">Welcome</h2><p id="dashSub">Your training command center</p></div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-box"><div class="sv" id="s-mod">0</div><div class="sl">Modules</div></div>
+        <div class="stat-box"><div class="sv" id="s-tasks">0</div><div class="sl">Quick Tasks</div></div>
+        <div class="stat-box"><div class="sv" id="s-cuts">0</div><div class="sl">Shortcuts</div></div>
+        <div class="stat-box"><div class="sv" id="s-form">0</div><div class="sl">Formulas</div></div>
+        <div class="stat-box"><div class="sv" id="s-labs">0</div><div class="sl">Math Labs</div></div>
+      </div>
+      <div id="dNotice" class="notice" style="display:none">⚡ <span id="dNoticeT"></span></div>
+      <div id="dCards" class="cgrid"></div>
+      <div class="div"></div>
+      <h3 style="font-family:var(--head);font-size:17px;font-weight:700;margin-bottom:14px">Track Progress</h3>
+      <div id="dProgress"></div>
+    </div>
+
+    <!-- SLIDES -->
+    <div id="panel-slides" class="panel">
+      <div class="sec-hdr"><span class="sico">📽</span><div><h2>Slide Tutorials</h2><p>Click any module to launch the walkthrough</p></div></div>
+      <div id="slideList" class="cgrid"></div>
+    </div>
+
+    <!-- MATH LAB -->
+    <div id="panel-mathlab" class="panel">
+      <div class="sec-hdr"><span class="sico">🔬</span><div><h2>Math Lab</h2><p>Live calculators — real Excel math, instant results</p></div></div>
+      <div id="mlContent"></div>
+    </div>
+
+    <!-- SHORTCUTS -->
+    <div id="panel-shortcuts" class="panel">
+      <div class="sec-hdr"><span class="sico">⚡</span><div><h2>Shortcuts</h2><p>Stop clicking. Start flying.</p></div></div>
+      <div class="sbar"><input type="text" id="scSearch" placeholder="Search shortcuts..." oninput="filterSC()" /></div>
+      <div id="scContent"></div>
+    </div>
+
+    <!-- QUICK TASKS -->
+    <div id="panel-quicktasks" class="panel">
+      <div class="sec-hdr"><span class="sico">✅</span><div><h2>Quick Tasks</h2><p>Micro-missions. Complete them, own the skill.</p></div></div>
+      <div id="qtContent" class="qt-grid"></div>
+    </div>
+
+    <!-- DATABASE TRACK -->
+    <div id="panel-database" class="panel">
+      <div class="sec-hdr"><span class="sico">🗄</span><div><h2>Database Track</h2><p>Power Query · Data Model · VBA · LAMBDA · Full stack</p></div></div>
+      <div id="dbContent"></div>
+    </div>
+
+    <!-- FORMULA REF -->
+    <div id="panel-formulas" class="panel">
+      <div class="sec-hdr"><span class="sico">📐</span><div><h2>Formula Reference</h2><p>Every formula you'll use — searchable, categorized</p></div></div>
+      <div class="sbar"><input type="text" id="fSearch" placeholder="Search formulas..." oninput="filterF()" /></div>
+      <div id="fContent"></div>
+    </div>
+
+    <!-- PIVOT DEEP DIVE -->
+    <div id="panel-pivot" class="panel">
+      <div class="sec-hdr"><span class="sico">🔄</span><div><h2>Pivot Table Deep Dive</h2><p>From raw data to boardroom-ready summary in minutes</p></div></div>
+      <div id="pivotContent"></div>
+    </div>
+
+    <!-- CHARTS -->
+    <div id="panel-charts" class="panel">
+      <div class="sec-hdr"><span class="sico">📈</span><div><h2>Charts & Graphs Builder</h2><p>When to use what — and how to make it not ugly</p></div></div>
+      <div id="chartsContent"></div>
+    </div>
+
+    <!-- VALIDATION -->
+    <div id="panel-validation" class="panel">
+      <div class="sec-hdr"><span class="sico">🛡</span><div><h2>Data Validation & Dropdowns</h2><p>Control what goes in. Stop garbage data before it starts.</p></div></div>
+      <div id="valContent"></div>
+    </div>
+
+    <!-- CONDITIONAL FORMAT -->
+    <div id="panel-cfmt" class="panel">
+      <div class="sec-hdr"><span class="sico">🎨</span><div><h2>Conditional Formatting Lab</h2><p>Automatic color logic — no manual painting ever again</p></div></div>
+      <div id="cfContent"></div>
+    </div>
+
+    <!-- POWER BI -->
+    <div id="panel-powerbi" class="panel">
+      <div class="sec-hdr"><span class="sico">🌐</span><div><h2>Power BI Connection</h2><p>When Excel isn't enough — bridge to Power BI</p></div></div>
+      <div id="pbiContent"></div>
+    </div>
+
+      <!-- FORMULA SANDBOX -->
+    <div id="panel-sandbox" class="panel">
+      <div class="sec-hdr"><span class="sico">🧪</span><div><h2>Formula Sandbox</h2><p>Type it, test it, break it on purpose — see exactly what Excel does and why</p></div></div>
+      <div id="sandboxContent"></div>
+    </div>
+
+  </main>
+</div>
+
+<!-- SLIDE OVERLAY -->
+<div id="slideOv" class="slide-ov">
+  <div class="sl-hdr">
+    <h3 id="slTitle">—</h3>
+    <span class="sl-prog" id="slProg">1/1</span>
+    <button class="btn-cls" onclick="closeSlide()">✕</button>
+  </div>
+  <div class="sl-body">
+    <div class="sl-content" id="slContent"></div>
+  </div>
+  <div class="sl-nav">
+    <button class="sl-nbtn" id="btnPrev" onclick="prevSl()">◀ PREV</button>
+    <div class="dots" id="slDots"></div>
+    <button class="sl-nbtn" id="btnNext" onclick="nextSl()">NEXT ▶</button>
+  </div>
+</div>
+
+<script>
+// ══ STATE ══
+let CU={name:'',tier:''};
+let CSL=[],CSI=0;
+const CREDS={beginner:'ssu2026',intermediate:'ssu2026',advanced:'ssu2026'};
+const TO={beginner:0,intermediate:1,advanced:2};
+
+// ══ AUTH ══
+function doLogin(){
+  const tier=document.getElementById('loginTier').value;
+  const name=document.getElementById('loginName').value.trim();
+  const pass=document.getElementById('loginPass').value;
+  const err=document.getElementById('lerr');
+  if(!tier||!name||!pass){err.style.display='block';err.textContent='⚠ All fields required.';return}
+  if(CREDS[tier]!==pass){err.style.display='block';err.textContent='⚠ Wrong access code for this level.';return}
+  err.style.display='none';
+  CU={name,tier};
+  bootApp();
+}
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&document.getElementById('loginScreen').classList.contains('active'))doLogin()});
+function doSignout(){
+  CU={name:'',tier:''};
+  ['loginTier','loginName','loginPass'].forEach(id=>document.getElementById(id).value='');
+  showScreen('loginScreen');
+}
+function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')}
+function switchTab(p,btn){
+  document.querySelectorAll('.ntab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('panel-'+p).classList.add('active');
+}
+
+// ══ BOOT ══
+function bootApp(){
+  showScreen('appScreen');
+  const tl={beginner:'BEGINNER',intermediate:'INTERMEDIATE',advanced:'ADVANCED'};
+  const tc={beginner:'ut-b',intermediate:'ut-i',advanced:'ut-a'};
+  document.getElementById('dName').textContent=CU.name.toUpperCase();
+  const t=document.getElementById('dTier');
+  t.textContent=tl[CU.tier];t.className='utier '+tc[CU.tier];
+  buildDash();buildSlides();buildML();buildSC();buildQT();buildDB();buildFormulas();
+  buildPivot();buildCharts();buildVal();buildCF();buildPBI();buildSandbox();
+}
+
+// ══ DASHBOARD ══
+const TDATA={
+  beginner:{title:'Beginner Track',sub:'Zero to functional. No shortcuts on the learning, but plenty on the keyboard.',notice:'Start with Navigation Basics. Do not skip ahead. The grid first, then formulas.',mod:8,tasks:6,cuts:28,form:25,labs:4},
+  intermediate:{title:'Intermediate Track',sub:'You know the grid. Now make it work 10x harder.',notice:'VLOOKUP + IF + Pivot Table = 80% of what Excel does in the real world. Master those three.',mod:14,tasks:9,cuts:52,form:62,labs:7},
+  advanced:{title:'Advanced / Database Track',sub:'You\'re building systems, not spreadsheets.',notice:'Power Query + Data Model + LAMBDA = engineer-level Excel. This is infrastructure work.',mod:20,tasks:12,cuts:72,form:130,labs:10}
+};
+const DCARDS={
+  beginner:[
+    {ico:'📋',t:'Navigation Basics',d:'The grid, cells, rows, columns, sheets. Move without the mouse.',b:'bg',bl:'START HERE'},
+    {ico:'➕',t:'Basic Math',d:'SUM, AVERAGE, COUNT. Your first real formulas.',b:'bg',bl:'LESSON 1'},
+    {ico:'🎨',t:'Conditional Formatting',d:'Auto-color your data. No more painting cells by hand.',b:'bg',bl:'NEW'},
+    {ico:'🛡',t:'Data Validation',d:'Dropdown lists and input rules. Lock down your sheets.',b:'bg',bl:'NEW'},
+    {ico:'📊',t:'Charts Intro',d:'Bar, line, pie. Pick the right one. Build it clean.',b:'bg',bl:'NEW'},
+    {ico:'💾',t:'Saving & Sharing',d:'XLSX, CSV, OneDrive, sheet protection.',b:'bg',bl:'LESSON 5'},
+  ],
+  intermediate:[
+    {ico:'🔍',t:'VLOOKUP / XLOOKUP',d:'Stop copy-pasting between sheets. This changes everything.',b:'br',bl:'CRITICAL'},
+    {ico:'❓',t:'IF / IFS / Nested',d:'Conditional logic across hundreds of rows at once.',b:'by',bl:'HIGH VALUE'},
+    {ico:'🔄',t:'Pivot Tables',d:'Summarize 10,000 rows in 4 clicks.',b:'br',bl:'CRITICAL'},
+    {ico:'📈',t:'Charts & Graphs',d:'When to use what. How to build executive-ready visuals.',b:'by',bl:'NEW MODULE'},
+    {ico:'🎨',t:'Conditional Formatting',d:'Data bars, color scales, icon sets, custom rules.',b:'by',bl:'NEW MODULE'},
+    {ico:'🛡',t:'Data Validation',d:'Dependent dropdowns, custom error messages, input masks.',b:'by',bl:'NEW MODULE'},
+    {ico:'🧹',t:'Data Cleaning',d:'TRIM, CLEAN, SUBSTITUTE. Your data is always messy.',b:'by',bl:'LESSON 7'},
+    {ico:'📅',t:'Date & Time',d:'TODAY, DATEDIF, NETWORKDAYS. Time math that works.',b:'by',bl:'LESSON 8'},
+  ],
+  advanced:[
+    {ico:'⚡',t:'Power Query',d:'ETL inside Excel. Connect, transform, load — automated.',b:'br',bl:'PRO TIER'},
+    {ico:'🏗️',t:'Data Model',d:'Relational data. Link tables without VLOOKUP nightmares.',b:'br',bl:'PRO TIER'},
+    {ico:'🔄',t:'Dynamic Arrays',d:'FILTER, SORT, UNIQUE, SEQUENCE. Auto-spill formulas.',b:'bb',bl:'NEW EXCEL'},
+    {ico:'💡',t:'VBA Macros',d:'Automate everything. Record, edit, deploy.',b:'br',bl:'AUTOMATION'},
+    {ico:'🌐',t:'Power BI Connection',d:'When Excel hits its limit — bridge to Power BI.',b:'bp',bl:'NEW MODULE'},
+    {ico:'📊',t:'Advanced Pivot',d:'Multi-table pivots, calculated fields, DAX measures.',b:'br',bl:'PRO TIER'},
+    {ico:'⚙️',t:'LAMBDA Functions',d:'Write your own Excel functions. No VBA required.',b:'br',bl:'CUTTING EDGE'},
+    {ico:'🎨',t:'Dashboard Design',d:'Executive dashboards with KPI cards, slicers, dynamic charts.',b:'bb',bl:'OUTPUT'},
+  ]
+};
+function buildDash(){
+  const d=TDATA[CU.tier];
+  document.getElementById('dashTitle').textContent='Welcome, '+CU.name;
+  document.getElementById('dashSub').textContent=d.sub;
+  document.getElementById('s-mod').textContent=d.mod;
+  document.getElementById('s-tasks').textContent=d.tasks;
+  document.getElementById('s-cuts').textContent=d.cuts;
+  document.getElementById('s-form').textContent=d.form;
+  document.getElementById('s-labs').textContent=d.labs;
+  if(d.notice){document.getElementById('dNotice').style.display='flex';document.getElementById('dNoticeT').textContent=d.notice}
+  document.getElementById('dCards').innerHTML=DCARDS[CU.tier].map(c=>`
+    <div class="card" onclick="launchMod('${c.t}')">
+      <div class="cico">${c.ico}</div><h3>${c.t}</h3><p>${c.d}</p>
+      <div class="card-meta"><span class="badge ${c.b}">${c.bl}</span></div>
+    </div>`).join('');
+  const progs=[
+    {l:'Navigation & Fundamentals',p:0},{l:'Formulas & Functions',p:0},
+    {l:'Data Management',p:0},{l:'Visualization',p:0}
+  ];
+  document.getElementById('dProgress').innerHTML=progs.map(p=>`
+    <div class="prow">
+      <div class="plabel"><span>${p.l}</span><span>0%</span></div>
+      <div class="pbar"><div class="pfill" style="width:0%"></div></div>
+    </div>`).join('');
+}
+function launchMod(t){
+  const m=ALL_SLIDES.find(s=>s.title===t);
+  if(m)openSlide(m);
+  else{document.querySelectorAll('.ntab')[1].click()}
+}
+
+// ══════════════════════════════════════════
+// SLIDE DATA
+// ══════════════════════════════════════════
+const ALL_SLIDES=[
+  {title:'Navigation Basics',tier:'beginner',ico:'📋',badge:'bg',bl:'BEGINNER',desc:'The grid, cells, rows, columns — move without the mouse.',slides:[
+    {h:'The Grid Explained',sub:'EXCEL FUNDAMENTALS · LESSON 1',body:`<p>Excel is a grid. Rows go across (numbered), columns go down (lettered). Every intersection is a <strong>cell</strong>, and every cell has an address: A1, B3, Z100.</p>
+    <div class="fbox"><div class="flbl">Cell Address</div>Column Letter + Row Number → A1, D7, AA200</div>
+    <div class="tbox"><span class="ti">💡</span><p>One Excel sheet = 1,048,576 rows × 16,384 columns. Space is not your problem. Organization is.</p></div>`},
+    {h:'Move Without the Mouse',sub:'NAVIGATION SHORTCUTS',body:`<div class="scut-grid">
+    <div class="scut-item"><span class="kdesc">Move one cell</span><span class="kbadge">Arrow Keys</span></div>
+    <div class="scut-item"><span class="kdesc">Jump to data edge</span><span class="kbadge">Ctrl+Arrow</span></div>
+    <div class="scut-item"><span class="kdesc">Go to A1</span><span class="kbadge">Ctrl+Home</span></div>
+    <div class="scut-item"><span class="kdesc">Go to last cell</span><span class="kbadge">Ctrl+End</span></div>
+    <div class="scut-item"><span class="kdesc">Go to any cell</span><span class="kbadge">Ctrl+G</span></div>
+    <div class="scut-item"><span class="kdesc">Switch sheets</span><span class="kbadge">Ctrl+PgUp/Dn</span></div>
+    <div class="scut-item"><span class="kdesc">Select row</span><span class="kbadge">Shift+Space</span></div>
+    <div class="scut-item"><span class="kdesc">Select column</span><span class="kbadge">Ctrl+Space</span></div>
+    </div><div class="tbox"><span class="ti">⚠️</span><p>If you're reaching for the mouse to navigate, stop. Practice these until they're automatic.</p></div>`},
+    {h:'Workbooks & Sheets',sub:'FILE STRUCTURE',body:`<p>One <strong>Workbook</strong> = one .xlsx file. Inside: multiple <strong>Sheets</strong> (tabs at the bottom).</p>
+    <ul><li>Right-click tab → rename, color, move, copy, hide</li><li>Double-click tab name → rename instantly</li><li>Ctrl+click multiple tabs → group select</li><li>Drag tabs to reorder</li></ul>
+    <div class="tbox"><span class="ti">⚠️</span><p>Sheet1, Sheet2, Sheet3 = how disasters are built. Name your sheets: Sales_Data, Config, Summary. Do it from day one.</p></div>`},
+    {h:'The Formula Bar & Name Box',sub:'INTERFACE ESSENTIALS',body:`<p>Two things beginners ignore at their own peril:</p>
+    <ul><li><strong>Name Box</strong> (top-left): shows active cell address. Click it, type any address, Enter = teleport there. Also used to name ranges.</li>
+    <li><strong>Formula Bar</strong>: shows actual cell content — not the formatted display. A cell showing "$1,200" actually contains 1200. The formula bar shows truth.</li></ul>
+    <div class="tbox"><span class="ti">🔥</span><p>When a formula looks right but returns wrong — check the formula bar. Display vs content are different things.</p></div>`},
+    {h:'Knowledge Check',sub:'BEFORE YOU MOVE ON',body:`<ul><li>What shortcut jumps to the last occupied cell in a column?</li><li>What is cell D7's address?</li><li>How do you select an entire row with keyboard only?</li><li>Where do you see what a cell actually contains vs what it shows?</li><li>Workbook vs Sheet — what's the difference?</li></ul>
+    <div class="tbox"><span class="ti">✅</span><p>Answers: Ctrl+Down · D7 · Shift+Space · Formula Bar · Workbook=file, Sheet=tab. 5/5? Move on. Less? Reread slides 2–3.</p></div>`}
+  ]},
+  {title:'Basic Math',tier:'beginner',ico:'➕',badge:'bg',bl:'BEGINNER',desc:'SUM, AVERAGE, COUNT — first real formulas.',slides:[
+    {h:'Every Formula Starts With =',sub:'FORMULA FUNDAMENTALS',body:`<div class="fbox"><div class="flbl">Basic Operators</div>=A1+B1  → add<br>=A1-B1  → subtract<br>=A1*B1  → multiply<br>=A1/B1  → divide<br>=A1^2   → exponent (A1 squared)</div>
+    <div class="tbox"><span class="ti">⚠️</span><p>#DIV/0! = you divided by zero. That's Excel telling you exactly what went wrong. Read error codes. They're not random.</p></div>`},
+    {h:'SUM — The Workhorse',sub:'AGGREGATE FUNCTIONS',body:`<div class="fbox"><div class="flbl">SUM</div>=SUM(A1:A100)         → range<br>=SUM(A1,B1,C1)        → specific cells<br>=SUM(A1:A50,C1:C50)   → multiple ranges<br>=SUM(Sheet2!A1:A100)  → from another sheet</div>
+    <div class="tbox"><span class="ti">⚡</span><p>Alt+= while in a cell below a column = AutoSum. Excel guesses the range. 90% accurate. Use it constantly.</p></div>`},
+    {h:'AVERAGE, MIN, MAX, COUNT',sub:'CORE FOUR',body:`<div class="fbox"><div class="flbl">Core Functions</div>=AVERAGE(A1:A100)  → mean<br>=MIN(A1:A100)      → smallest<br>=MAX(A1:A100)      → largest<br>=COUNT(A1:A100)    → count numbers only<br>=COUNTA(A1:A100)   → count non-empty<br>=COUNTBLANK(A:A)   → count empty</div>
+    <p>COUNT ≠ COUNTA. COUNT only counts numbers. COUNTA counts anything that isn't blank. Use the right one or your totals will lie.</p>`},
+    {h:'Relative vs Absolute References',sub:'CRITICAL CONCEPT — DO NOT SKIP',body:`<div class="fbox"><div class="flbl">Reference Types</div>=A1     → both shift when copied<br>=$A$1   → locked — never moves<br>=$A1    → column locked, row moves<br>=A$1    → row locked, column moves</div>
+    <div class="tbox"><span class="ti">⚡</span><p>Press F4 while your cursor is on a cell reference in a formula to cycle through all four types. Stop typing dollar signs manually.</p></div>`},
+    {h:'SUMIF & COUNTIF',sub:'CONDITIONAL MATH',body:`<div class="fbox"><div class="flbl">Conditional Aggregates</div>=SUMIF(range, criteria, sum_range)<br>=COUNTIF(range, criteria)<br><br>Sum sales for Las Vegas:<br>=SUMIF(A2:A100,"Las Vegas",B2:B100)<br><br>Count values over $500:<br>=COUNTIF(B2:B100,"&gt;500")</div>
+    <div class="tbox"><span class="ti">🔥</span><p>SUMIFS/COUNTIFS (plural S) handles multiple conditions. If you're still manually filtering and pasting totals — these two functions end that today.</p></div>`}
+  ]},
+  {title:'VLOOKUP / XLOOKUP',tier:'intermediate',ico:'🔍',badge:'br',bl:'CRITICAL',desc:'Stop copying between sheets. This changes your workflow.',slides:[
+    {h:'The Problem It Solves',sub:'WHY LOOKUPS EXIST',body:`<p>Two tables. Table A: customer IDs + sales. Table B: customer IDs + names. You need to merge them without manually matching 2,000 rows. That's what VLOOKUP does.</p>
+    <div class="tbox"><span class="ti">⚡</span><p>If you've ever opened two sheets side-by-side and manually typed values from one to the other — that stops today. VLOOKUP is what you should have been using.</p></div>`},
+    {h:'VLOOKUP Syntax',sub:'FUNCTION BREAKDOWN',body:`<div class="fbox"><div class="flbl">VLOOKUP</div>=VLOOKUP(lookup_value, table_array, col_index, [range_lookup])<br><br>lookup_value  = what you're searching FOR<br>table_array   = the table to search IN (lock with $)<br>col_index     = which column to return (1=first, 2=second...)<br>range_lookup  = FALSE for exact match (always use FALSE)</div>
+    <div class="fbox"><div class="flbl">Example</div>=VLOOKUP(A2,$Sheet2.$A:$C,2,FALSE)</div>
+    <div class="tbox"><span class="ti">⚠️</span><p>Always FALSE unless you specifically need approximate match. TRUE on unsorted data returns wrong values silently. No error — just wrong data. That's worse.</p></div>`},
+    {h:'VLOOKUP Limitations',sub:'KNOW THE WALLS',body:`<ul><li>Only looks left-to-right — lookup column must be leftmost</li><li>Returns first match only</li><li>Column index breaks if you add columns to the table</li><li>Case-insensitive — "Smith" = "SMITH"</li></ul>
+    <div class="tbox"><span class="ti">🔥</span><p>VLOOKUP is legacy. Know it because you'll see it in others' files. Then use XLOOKUP. It fixes all of this.</p></div>`},
+    {h:'XLOOKUP — Modern Replacement',sub:'USE THIS INSTEAD',body:`<div class="fbox"><div class="flbl">XLOOKUP</div>=XLOOKUP(lookup_value, lookup_array, return_array, [if_not_found])<br><br>=XLOOKUP(A2, Sheet2!A:A, Sheet2!C:C, "Not Found")<br><br>→ No column number. No directional restriction.<br>→ Returns "Not Found" instead of #N/A error.</div>
+    <div class="tbox"><span class="ti">💡</span><p>XLOOKUP requires Excel 2021+ or Microsoft 365. If you're on older Excel, use INDEX/MATCH instead of VLOOKUP. It has the same flexibility.</p></div>`},
+    {h:'Troubleshooting Lookups',sub:'FIX YOUR ERRORS',body:`<ul><li><strong>#N/A</strong> — Not found. Check spelling, leading spaces (use TRIM), data type mismatch (text vs number)</li><li><strong>#REF!</strong> — Column index exceeds table width. Recount.</li><li><strong>#VALUE!</strong> — col_index is 0 or negative</li><li>Wrong value returned — You used TRUE instead of FALSE</li></ul>
+    <div class="fbox"><div class="flbl">Wrap with IFERROR</div>=IFERROR(VLOOKUP(A2,$B:$D,2,FALSE),"Not Found")</div>`}
+  ]},
+  {title:'Power Query',tier:'advanced',ico:'⚡',badge:'br',bl:'PRO TIER',desc:'ETL inside Excel. Automate your data pipeline.',slides:[
+    {h:'What Power Query Is',sub:'ETL LAYER IN EXCEL',body:`<p>Power Query is Excel's built-in ETL engine. Connect to a source, apply transformations once, and the pipeline runs every time you refresh. You stop touching raw data manually.</p>
+    <div class="tbox"><span class="ti">🔥</span><p>If you spend 30+ minutes a week manually cleaning the same data, you should have built a Power Query query the first time you did it. Time debt compounds.</p></div>`},
+    {h:'Connect to Any Source',sub:'GET & TRANSFORM',body:`<ul><li><strong>File:</strong> Excel, CSV, JSON, XML, PDF, Folder (multiple files at once)</li><li><strong>Database:</strong> SQL Server, Access, Oracle, MySQL</li><li><strong>Online:</strong> SharePoint, OneDrive, Salesforce, OData, Web</li><li><strong>Azure:</strong> Blob, SQL, Analysis Services</li></ul>
+    <div class="fbox"><div class="flbl">Pro Move: Connect to Folder</div>Data → Get Data → From File → From Folder<br>→ Load ALL files in a folder at once<br>→ Drop new file in, refresh, auto-included</div>`},
+    {h:'Key Transformations',sub:'QUERY EDITOR OPS',body:`<ol class="step-ol"><li>Remove Columns — right-click header → Remove. Keep only what you need.</li><li>Change Type — set correct data types (text, number, date) on every column</li><li>Filter Rows — permanent filter, not AutoFilter. Runs on every refresh.</li><li>Group By — aggregate data in the query layer, not on the sheet</li><li>Merge Queries — join two tables on a common key (replaces VLOOKUP pipelines)</li><li>Append Queries — stack multiple tables vertically automatically</li></ol>`},
+    {h:'M Language Basics',sub:'THE CODE BEHIND THE UI',body:`<div class="fbox"><div class="flbl">M Code Structure</div>let<br>&nbsp;&nbsp;Source = Csv.Document(File.Contents("C:\\data\\file.csv")),<br>&nbsp;&nbsp;Promoted = Table.PromoteHeaders(Source),<br>&nbsp;&nbsp;Trimmed = Table.TransformColumns(Promoted,{{"Name",Text.Trim}}),<br>&nbsp;&nbsp;Filtered = Table.SelectRows(Trimmed, each [Region]="West")<br>in<br>&nbsp;&nbsp;Filtered</div>
+    <div class="tbox"><span class="ti">💡</span><p>Use the UI to build, then Advanced Editor to understand and tweak the generated M. You don't need to write from scratch.</p></div>`},
+    {h:'Refresh & Automation',sub:'KEEPING DATA CURRENT',body:`<ul><li><strong>Manual:</strong> Data → Refresh All or Ctrl+Alt+F5</li><li><strong>On Open:</strong> Query Properties → check "Refresh on file open"</li><li><strong>Parameterize paths:</strong> Build a "Config" query that stores file paths — when source moves, change one place</li></ul>
+    <div class="tbox"><span class="ti">⚠️</span><p>Document your source paths. Name every Applied Step in the query. A query with steps called "Changed Type3" and "Filtered Rows1" is a maintenance nightmare.</p></div>`}
+  ]},
+  {title:'VBA Macros',tier:'advanced',ico:'💡',badge:'br',bl:'AUTOMATION',desc:'Automate repetitive work. Save hours weekly.',slides:[
+    {h:'What VBA Does',sub:'VISUAL BASIC FOR APPLICATIONS',body:`<p>VBA is Excel's programming language. Automate anything you can do manually — but at machine speed, without human error, across thousands of rows.</p>
+    <div class="fbox"><div class="flbl">Enable Developer Tab</div>File → Options → Customize Ribbon → Check "Developer" → OK</div>`},
+    {h:'Recording Your First Macro',sub:'ZERO CODE REQUIRED TO START',body:`<ol class="step-ol"><li>Developer → Record Macro → name it, assign shortcut key</li><li>Do your steps manually (format, filter, copy, calculate)</li><li>Developer → Stop Recording</li><li>Alt+F11 → find your macro in Module1</li><li>Read the generated code — that's real VBA you can edit</li></ol>
+    <div class="tbox"><span class="ti">⚠️</span><p>Recorded macros use absolute references and are inefficient. Use recording to learn syntax. Then rewrite with variables and loops before deploying.</p></div>`},
+    {h:'VBA Core Syntax',sub:'LANGUAGE BASICS',body:`<div class="fbox"><div class="flbl">VBA Structure</div>Sub FormatReport()<br>&nbsp;&nbsp;Dim ws As Worksheet<br>&nbsp;&nbsp;Set ws = ThisWorkbook.Sheets("Sales")<br>&nbsp;&nbsp;Dim lastRow As Long<br>&nbsp;&nbsp;lastRow = ws.Cells(ws.Rows.Count,"A").End(xlUp).Row<br>&nbsp;&nbsp;For i = 2 To lastRow<br>&nbsp;&nbsp;&nbsp;&nbsp;If ws.Cells(i,3).Value > 1000 Then<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ws.Cells(i,4).Value = "HIGH"<br>&nbsp;&nbsp;&nbsp;&nbsp;End If<br>&nbsp;&nbsp;Next i<br>End Sub</div>`},
+    {h:'High-Value Use Cases',sub:'WHAT ACTUALLY SAVES TIME',body:`<ul><li>Auto-format when new data is pasted (Worksheet_Change event)</li><li>Generate report → format → save as PDF → email — one click</li><li>Loop through a list, create one sheet per item</li><li>Import/export data between Excel and text files</li><li>Protect/unprotect multiple sheets simultaneously</li><li>Run cleanup on Workbook_Open event</li></ul>`},
+    {h:'File Type & Security',sub:'XLSM NOT XLSX',body:`<p>Files with VBA must be saved as <strong>.xlsm</strong>. Saving as .xlsx silently strips all macros with only a dialog most people click through.</p>
+    <div class="fbox"><div class="flbl">Macro Security</div>File → Options → Trust Center → Trust Center Settings<br>→ Macro Settings → "Disable with notification"</div>
+    <div class="tbox"><span class="ti">⚠️</span><p>Never enable macros from an unknown source. VBA can do anything your user account can do: delete files, read data, modify the OS. Treat macro files from outside like phishing emails.</p></div>`}
+  ]},
+];
+
+// ══ SLIDE PLAYER ══
+function buildSlides(){
+  const myT=TO[CU.tier];
+  document.getElementById('slideList').innerHTML=ALL_SLIDES.map(m=>{
+    const locked=TO[m.tier]>myT;
+    return `<div class="card ${locked?'lk-wrap':''}" ${!locked?`onclick="openSlide(ALL_SLIDES.find(s=>s.title==='${m.title}'))"`:''}>
+      <div class="cico">${m.ico}</div><h3>${m.title}</h3><p>${m.desc}</p>
+      <div class="card-meta"><span class="badge ${m.badge}">${m.bl}</span><span style="font-family:var(--mono);font-size:10px;color:var(--dim)">${m.slides.length} slides</span></div>
+      ${locked?`<div class="lock-sh"><span class="lkico">🔒</span><p>REQUIRES ${m.tier.toUpperCase()}</p></div>`:''}
+    </div>`;
+  }).join('');
+}
+function openSlide(m){if(!m)return;CSL=m.slides;CSI=0;document.getElementById('slTitle').textContent=m.title;document.getElementById('slideOv').classList.add('open');renderSl()}
+function closeSlide(){document.getElementById('slideOv').classList.remove('open')}
+function renderSl(){
+  const s=CSL[CSI],total=CSL.length;
+  document.getElementById('slProg').textContent=`${CSI+1}/${total}`;
+  document.getElementById('slContent').innerHTML=`<span class="sl-num">${String(CSI+1).padStart(2,'0')}/${String(total).padStart(2,'0')}</span><div class="sl-sub">${s.sub}</div><h2>${s.h}</h2>${s.body}`;
+  document.getElementById('btnPrev').disabled=CSI===0;
+  document.getElementById('btnNext').textContent=CSI===total-1?'FINISH ✓':'NEXT ▶';
+  document.getElementById('btnNext').disabled=false;
+  document.getElementById('slDots').innerHTML=CSL.map((_,i)=>`<div class="dot ${i===CSI?'active':''}" onclick="goSl(${i})"></div>`).join('');
+}
+function nextSl(){if(CSI<CSL.length-1){CSI++;renderSl()}else closeSlide()}
+function prevSl(){if(CSI>0){CSI--;renderSl()}}
+function goSl(i){CSI=i;renderSl()}
+
+// ══ MATH LAB ══
+const MLABS=[
+  {t:'Commission Calculator',d:'Enter sales and rate, get instant commission.',tier:'beginner',fields:[{id:'ml1a',lbl:'Total Sales ($)',ph:'15000'},{id:'ml1b',lbl:'Commission Rate (%)',ph:'8'}],formula:'=Sales × (Rate/100)',calc:v=>{const s=+v[0],r=+v[1];if(isNaN(s)||isNaN(r))return'Enter valid numbers';return`Commission: $${(s*r/100).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}`}},
+  {t:'Percentage Change',d:'Period-over-period growth calculation.',tier:'beginner',fields:[{id:'ml2a',lbl:'Previous Value',ph:'1200'},{id:'ml2b',lbl:'New Value',ph:'1450'}],formula:'=(New-Old)/Old×100',calc:v=>{const o=+v[0],n=+v[1];if(isNaN(o)||isNaN(n)||o===0)return'Enter valid numbers (old≠0)';const p=((n-o)/o*100).toFixed(2);return`Change: ${p>0?'+':''}${p}%`}},
+  {t:'Margin Calculator',d:'Revenue and Cost → Gross Margin %.',tier:'beginner',fields:[{id:'ml3a',lbl:'Revenue ($)',ph:'50000'},{id:'ml3b',lbl:'Cost ($)',ph:'32000'}],formula:'=(Revenue-Cost)/Revenue',calc:v=>{const r=+v[0],c=+v[1];if(isNaN(r)||isNaN(c)||r===0)return'Enter valid numbers';const m=((r-c)/r*100).toFixed(2);return`Gross Margin: ${m}% | Profit: $${(r-c).toLocaleString()}`}},
+  {t:'AVERAGEIF Simulator',d:'Average only values above your threshold.',tier:'intermediate',fields:[{id:'ml4a',lbl:'Values (comma-separated)',ph:'120,450,890,300,1200,75'},{id:'ml4b',lbl:'Threshold (average above)',ph:'200'}],formula:'=AVERAGEIF(range,">"&threshold)',calc:v=>{const nums=v[0].split(',').map(x=>+x.trim()).filter(x=>!isNaN(x));const t=+v[1];if(!nums.length||isNaN(t))return'Enter values and threshold';const f=nums.filter(x=>x>t);if(!f.length)return'No values above threshold';return`Avg above ${t}: ${(f.reduce((a,b)=>a+b,0)/f.length).toFixed(2)} (${f.length} of ${nums.length} values)`}},
+  {t:'PMT Loan Payment',d:'Monthly payment on any loan.',tier:'intermediate',fields:[{id:'ml5a',lbl:'Annual Rate (%)',ph:'6.5'},{id:'ml5b',lbl:'Years',ph:'5'},{id:'ml5c',lbl:'Loan Amount ($)',ph:'25000'}],formula:'=PMT(rate/12,nper,pv)',calc:v=>{const r=+v[0]/100/12,n=+v[1]*12,pv=+v[2];if([r,n,pv].some(isNaN))return'Enter all three values';const p=(pv*r*Math.pow(1+r,n))/(Math.pow(1+r,n)-1);return`Monthly: $${p.toFixed(2)} | Total: $${(p*n).toFixed(2)} | Interest: $${(p*n-pv).toFixed(2)}`}},
+  {t:'VLOOKUP Simulator',d:'See what VLOOKUP would return from your data.',tier:'intermediate',fields:[{id:'ml6a',lbl:'Data (key,value rows — use ; between rows)',ph:'A001,Las Vegas;A002,Reno;A003,Cheyenne'},{id:'ml6b',lbl:'Lookup Value',ph:'A002'}],formula:'=VLOOKUP(A2,$Table,2,FALSE)',calc:v=>{const rows=v[0].split(';').map(r=>r.split(',').map(s=>s.trim()));const key=v[1].trim();if(!key)return'Enter a lookup value';const m=rows.find(r=>r[0]===key);return m?`Result: "${m[1]}" (matched: ${m[0]})`:`#N/A — "${key}" not found`}},
+  {t:'Standard Deviation',d:'STDEV on your dataset — see spread and variance.',tier:'advanced',fields:[{id:'ml7a',lbl:'Values (comma-separated)',ph:'45,52,49,61,38,55,47,60,44,51'}],formula:'=STDEV(range)',calc:v=>{const nums=v[0].split(',').map(x=>+x.trim()).filter(x=>!isNaN(x));if(nums.length<2)return'Enter at least 2 values';const mean=nums.reduce((a,b)=>a+b,0)/nums.length;const sd=Math.sqrt(nums.reduce((a,b)=>a+Math.pow(b-mean,2),0)/(nums.length-1));return`Mean:${mean.toFixed(2)} | StDev:${sd.toFixed(2)} | Min:${Math.min(...nums)} | Max:${Math.max(...nums)}`}},
+  {t:'FILTER/SORT Simulator',d:'Simulate dynamic array FILTER — show values above threshold sorted.',tier:'advanced',fields:[{id:'ml8a',lbl:'Values (comma-separated)',ph:'300,1500,200,4200,800,3100,150'},{id:'ml8b',lbl:'Filter above',ph:'500'}],formula:'=SORT(FILTER(range,range>threshold),-1)',calc:v=>{const nums=v[0].split(',').map(x=>+x.trim()).filter(x=>!isNaN(x));const t=+v[1];if(!nums.length||isNaN(t))return'Enter data';const f=nums.filter(x=>x>t).sort((a,b)=>b-a);return f.length?`Filtered & sorted: ${f.join(', ')} (${f.length} items)`:`No values above ${t}`}},
+];
+function buildML(){
+  const myT=TO[CU.tier];
+  document.getElementById('mlContent').innerHTML=MLABS.map((lab,i)=>{
+    const locked=TO[lab.tier]>myT;
+    return`<div class="mlab ${locked?'lk-wrap':''}">
+      <h3>${lab.t}</h3><div class="ldesc">${lab.d}</div>
+      <div class="fbox"><div class="flbl">Excel Formula</div>${lab.formula}</div>
+      ${lab.fields.map(f=>`<div class="finput"><label>${f.lbl}</label><input id="${f.id}" type="text" placeholder="${f.ph}" /></div>`).join('')}
+      <div class="calc-row">
+        <button class="btn-calc" onclick="runML(${i})">CALCULATE</button>
+        <div class="rdisp" id="rdisp_${i}"><span style="color:var(--dim)">Enter values above</span></div>
+      </div>
+      ${locked?`<div class="lock-sh"><span class="lkico">🔒</span><p>REQUIRES ${lab.tier.toUpperCase()}</p></div>`:''}
+    </div>`;
+  }).join('');
+}
+function runML(i){
+  const lab=MLABS[i];
+  const vals=lab.fields.map(f=>document.getElementById(f.id).value);
+  const r=lab.calc(vals);
+  const el=document.getElementById('rdisp_'+i);
+  el.innerHTML=`<span>${r}</span>`;
+  el.style.color=r.startsWith('#')||r.includes('Enter')||r.includes('No ')?'var(--red-b)':'var(--green)';
+}
+
+// ══ SHORTCUTS ══
+const SCSECS=[
+  {t:'⚡ Essentials — Learn These First',tier:'beginner',rows:[
+    ['Ctrl+Z/Y','Undo / Redo','Most used keys in any session'],
+    ['Ctrl+C/V/X','Copy / Paste / Cut','Never right-click for these'],
+    ['Ctrl+S','Save','Every few minutes, not when done'],
+    ['Ctrl+A','Select All','All text in cell or all cells on sheet'],
+    ['Ctrl+Home/End','Jump to A1 / last cell','Instant navigation across the sheet'],
+    ['Ctrl+Arrow','Jump to data edge','Skip to last/first cell in a range'],
+    ['Alt+=','AutoSum','SUM formula below column — use constantly'],
+    ['F2','Edit cell mode','Enter formula editing without double-click'],
+    ['Escape','Cancel edit','Exit formula without saving'],
+    ['Enter/Tab','Confirm + move down/right','Tab moves right, Enter moves down'],
+    ['Ctrl+D','Fill Down','Copy top cell to selected range'],
+    ['Ctrl+R','Fill Right','Copy left cell to selected range rightward'],
+  ]},
+  {t:'📊 Selection & Navigation',tier:'beginner',rows:[
+    ['Ctrl+Shift+Arrow','Select to edge','Extend selection to last data cell'],
+    ['Shift+Space','Select row','Full row of active cell'],
+    ['Ctrl+Space','Select column','Full column of active cell'],
+    ['Ctrl+G or F5','Go To dialog','Jump anywhere, find blanks, special'],
+    ['Ctrl+F','Find','Search within sheet'],
+    ['Ctrl+H','Find & Replace','Bulk replace across sheet'],
+    ['Ctrl+PgUp/Dn','Switch sheets','Move between tabs without mouse'],
+  ]},
+  {t:'🔬 Formulas & Functions',tier:'intermediate',rows:[
+    ['F4','Toggle $ reference','Cycles A1 → $A$1 → A$1 → $A1'],
+    ['Ctrl+`','Show all formulas','Toggle formula view vs value view'],
+    ['F9','Evaluate selection','Calculate selected part of formula in bar'],
+    ['Ctrl+[','Trace precedents','Jump to referenced cells'],
+    ['Tab in formula','Accept autocomplete','Accept IntelliSense function suggestion'],
+    ['Alt+Enter','Line break in cell','Multi-line text in one cell'],
+    ['Ctrl+Shift+U','Expand formula bar','See long formulas without squinting'],
+  ]},
+  {t:'🎨 Formatting',tier:'intermediate',rows:[
+    ['Ctrl+1','Format Cells dialog','All formatting options in one panel'],
+    ['Ctrl+B/I/U','Bold / Italic / Underline','Basic text formatting'],
+    ['Ctrl+Shift+$','Currency format','Apply $0.00 instantly'],
+    ['Ctrl+Shift+%','Percentage format','Apply 0% format'],
+    ['Ctrl+Shift+#','Date format','Apply DD-MMM-YY'],
+    ['Ctrl+Shift+!','Number with commas','Apply #,##0.00'],
+    ['Ctrl+Shift+L','Toggle AutoFilter','Turn filter dropdowns on/off'],
+    ['Alt+H+H','Fill color picker','Background color quick access'],
+  ]},
+  {t:'🏗️ Rows, Columns & Structure',tier:'intermediate',rows:[
+    ['Ctrl++','Insert row/column','Select row/col first, then insert'],
+    ['Ctrl+-','Delete row/column','Delete selected rows or columns'],
+    ['Ctrl+T','Create Table','Convert range to structured Table — do this always'],
+    ['Alt+O+C+A','AutoFit column width','Auto-size column to content'],
+    ['F11','Create chart sheet','Selected data → instant chart sheet'],
+    ['Shift+F11','New sheet','Insert new worksheet tab'],
+  ]},
+  {t:'⚙️ Power User / Advanced',tier:'advanced',rows:[
+    ['Alt+F11','Open VBA Editor','Visual Basic IDE'],
+    ['Alt+F8','Macro dialog','Run, edit, delete macros'],
+    ['Ctrl+Alt+F5','Refresh All','Refresh all queries and connections'],
+    ['Ctrl+F3','Name Manager','View and edit all named ranges'],
+    ['Ctrl+Shift+F3','Create names from selection','Name ranges from header labels'],
+    ['Alt+;','Select visible cells only','Critical after filtering — paste to visible only'],
+    ['Ctrl+Q','Quick Analysis','Instant chart/format/totals on selection'],
+    ['Ctrl+Shift+F9','Force full recalculation','Recalculate everything'],
+  ]},
+];
+let allSC=[];
+function buildSC(){
+  allSC=[];
+  SCSECS.forEach(s=>s.rows.forEach(r=>allSC.push({sec:s.t,tier:s.tier,keys:r[0],action:r[1],note:r[2]})));
+  renderSC('');
+}
+function renderSC(q){
+  const myT=TO[CU.tier];const ql=q.toLowerCase();
+  const secs={};
+  allSC.forEach(s=>{
+    if(ql&&!s.keys.toLowerCase().includes(ql)&&!s.action.toLowerCase().includes(ql)&&!s.note.toLowerCase().includes(ql))return;
+    if(!secs[s.sec])secs[s.sec]={locked:TO[s.tier]>myT,rows:[]};
+    secs[s.sec].rows.push(s);
+  });
+  document.getElementById('scContent').innerHTML=Object.entries(secs).map(([t,d])=>`
+    <div class="scut-sec"><h3>${t}</h3>
+    ${d.locked?'<div style="font-family:var(--mono);font-size:12px;color:var(--dim);padding:10px;border:1px solid var(--border);border-radius:3px;">🔒 Unlock at higher access level</div>':`
+    <table class="scut-tbl"><thead><tr><th>Keys</th><th>Action</th><th>Notes</th></tr></thead><tbody>
+    ${d.rows.map(s=>`<tr><td><span class="kbdg">${s.keys}</span></td><td>${s.action}</td><td>${s.note}</td></tr>`).join('')}
+    </tbody></table>`}</div>`).join('')||'<p style="color:var(--dim);font-family:var(--mono)">No shortcuts match.</p>';
+}
+function filterSC(){renderSC(document.getElementById('scSearch').value)}
+
+// ══ QUICK TASKS ══
+const QTDATA={
+  beginner:[
+    {ico:'📋',t:'Build a Budget Sheet',d:'5-row budget: Category, Planned, Actual, Variance. Variance = Actual - Planned.',f:'=C2-B2',time:'5 min'},
+    {ico:'➕',t:'SUM a Column',d:'10 numbers in column A. In A11, SUM all 10 without typing each cell.',f:'=SUM(A1:A10)',time:'3 min'},
+    {ico:'📊',t:'Format a Table',d:'Plain range → bold headers → alternate row shading → auto-fit columns.',f:'Ctrl+T → Table',time:'4 min'},
+    {ico:'🔢',t:'Count Non-Empty Cells',d:'List with blanks. COUNTA to count only filled cells.',f:'=COUNTA(A:A)',time:'2 min'},
+    {ico:'🎨',t:'Color Cells Over 500',d:'Highlight all values >500 in red using Conditional Formatting — no manual coloring.',f:'Home → Cond. Format',time:'4 min'},
+    {ico:'🛡',t:'Create a Dropdown List',d:'Column A: 5 cells. Add Data Validation with a dropdown of 3 choices.',f:'Data → Validation → List',time:'5 min'},
+  ],
+  intermediate:[
+    {ico:'🔍',t:'VLOOKUP Across Sheets',d:'Two sheets: IDs+names, IDs+sales. VLOOKUP on Sheet2 to pull names from Sheet1.',f:'=VLOOKUP(A2,Sheet1!$A:$B,2,FALSE)',time:'8 min'},
+    {ico:'❓',t:'Grade Calculator',d:'90+=A, 80+=B, 70+=C, 60+=D, else F. Apply IFS to 10 scores.',f:'=IFS(A2>=90,"A",A2>=80,"B",TRUE,"F")',time:'6 min'},
+    {ico:'🔄',t:'Pivot: Sales by Region',d:'50+ rows: region, rep, amount → pivot showing total by region.',f:'Insert → PivotTable',time:'10 min'},
+    {ico:'📈',t:'Bar Chart from Pivot',d:'From your Pivot Table, create a clustered bar chart with a title.',f:'Insert → Chart',time:'6 min'},
+    {ico:'🎨',t:'3-Color Scale',d:'Column of numbers → 3-color scale: red-yellow-green based on value.',f:'Cond Format → Color Scale',time:'3 min'},
+    {ico:'🛡',t:'Dependent Dropdown',d:'State dropdown → when state selected, City dropdown shows only that state\'s cities.',f:'=INDIRECT(A2)',time:'12 min'},
+    {ico:'🧹',t:'Clean Messy Names',d:'Mixed case + extra spaces. TRIM + PROPER to fix in one column.',f:'=PROPER(TRIM(A2))',time:'5 min'},
+    {ico:'🔗',t:'XLOOKUP with Fallback',d:'XLOOKUP returning "Not Found" for missing values instead of #N/A.',f:'=XLOOKUP(A2,B:B,C:C,"Not Found")',time:'5 min'},
+    {ico:'📅',t:'Business Days Remaining',d:'NETWORKDAYS: business days left in current month from today.',f:'=NETWORKDAYS(TODAY(),EOMONTH(TODAY(),0))',time:'5 min'},
+  ],
+  advanced:[
+    {ico:'⚡',t:'Power Query: Clean & Load',d:'CSV with inconsistent dates + mixed case. PQ: fix types, trim, load.',f:'Data → Get Data → From File',time:'15 min'},
+    {ico:'🔄',t:'FILTER + SORT Array',d:'Dashboard auto-filters sales table to deals >$1k, sorted descending.',f:'=SORT(FILTER(A2:C100,C2:C100>1000),3,-1)',time:'10 min'},
+    {ico:'💡',t:'Write a Macro',d:'Record standard formatting macro. Edit to use dynamic last row.',f:'Alt+F11 → VBE',time:'20 min'},
+    {ico:'🏗️',t:'Data Model Join',d:'Two tables in data model. Define relationship. Cross-table pivot.',f:'Power Pivot → Manage',time:'20 min'},
+    {ico:'📐',t:'LAMBDA Function',d:'LAMBDA named MARGIN: takes Revenue and Cost, returns margin %.',f:'=LAMBDA(rev,cost,(rev-cost)/rev)',time:'12 min'},
+    {ico:'📊',t:'Executive Dashboard',d:'4 KPI cards + bar chart + line chart + slicer. Dynamic, no pivot on surface.',f:'Design Challenge',time:'45 min'},
+    {ico:'🌐',t:'Publish to Power BI',d:'Export a named Excel Table to Power BI Desktop. Refresh and verify.',f:'Power BI → Get Data → Excel',time:'20 min'},
+    {ico:'🎨',t:'Icon Set Rules',d:'Sales column: up arrow >10% growth, dash 0–10%, down arrow <0%.',f:'Cond Format → Icon Sets → Custom',time:'8 min'},
+    {ico:'🛡',t:'Cascading Validation',d:'3-level cascading dropdown: Region → State → City using named ranges + INDIRECT.',f:'Named Ranges + INDIRECT',time:'20 min'},
+    {ico:'📈',t:'Dynamic Chart Range',d:'Chart that auto-updates range as new rows are added using Table reference.',f:'Table-based chart source',time:'10 min'},
+    {ico:'⚙️',t:'LET Formula',d:'Rewrite a complex nested formula using LET to name intermediate variables.',f:'=LET(x,SUM(A:A),y,COUNT(A:A),x/y)',time:'10 min'},
+    {ico:'🔄',t:'UNIQUE + SORT Dashboard',d:'Master list → UNIQUE extracts distinct values → SORT orders them → counts with COUNTIF.',f:'=COUNTIF(A:A,UNIQUE(A2:A100))',time:'12 min'},
+  ]
+};
+let taskDone={};
+function buildQT(){
+  taskDone={};
+  const tasks=QTDATA[CU.tier];
+  document.getElementById('qtContent').innerHTML=tasks.map((t,i)=>`
+    <div class="qt-card">
+      <div class="qico">${t.ico}</div>
+      <h4>${t.t}</h4><p>${t.d}</p>
+      <div class="qt-formula">${t.f}</div>
+      <div class="qt-meta">
+        <span class="qt-time">⏱ ${t.time}</span>
+        <div class="qt-done" id="qtd_${i}" onclick="toggleTask(${i})" title="Mark complete">○</div>
+      </div>
+    </div>`).join('');
+}
+function toggleTask(i){
+  taskDone[i]=!taskDone[i];
+  const el=document.getElementById('qtd_'+i);
+  if(taskDone[i]){el.classList.add('checked');el.textContent='✓'}
+  else{el.classList.remove('checked');el.textContent='○'}
+}
+
+// ══ DATABASE TRACK ══
+const DBMODS=[
+  {tier:'beginner',ico:'📋',t:'Structured Tables',sub:'BEGINNER · FOUNDATION',steps:['Select any cell inside your data range','Press Ctrl+T → confirm range → OK','Name the table: Table Design tab → Table Name box','Formulas now use Table[@Column] notation','New rows at bottom auto-expand table and formulas','Sort/filter built-in on every header']},
+  {tier:'intermediate',ico:'🔍',t:'Lookup Architecture',sub:'INTERMEDIATE · STEP 1',steps:['Identify your key column — unique ID linking tables','Ensure zero duplicates in the master/dimension table','Use XLOOKUP from fact table into dimension table','Wrap with IFERROR for missing ID handling','Build a Config sheet — never embed lookups in formula sheets','Add a comment to each lookup cell documenting its source']},
+  {tier:'intermediate',ico:'🔄',t:'Pivot Architecture',sub:'INTERMEDIATE · STEP 2',steps:['Source data must be a structured Table, not a plain range','Insert → PivotTable → use table name as source','Dedicated Pivots sheet — never pivot on top of raw data','Add Slicers: PivotTable Analyze → Insert Slicer','Calculated Fields for derived metrics (Revenue-Cost=Profit)','Refresh with Ctrl+Alt+F5 — wire to macro for schedule']},
+  {tier:'advanced',ico:'⚡',t:'Power Query Pipeline',sub:'ADVANCED · STEP 3',steps:['Define each source as a separate query','Apply all transforms in Query Editor (types, nulls, trim)','Merge Queries (Left Outer) for table joins','Load to Data Model for large datasets','Name every Applied Step descriptively','Parameterize all file paths in a Config query']},
+  {tier:'advanced',ico:'🏗️',t:'Data Model & DAX',sub:'ADVANCED · STEP 4',steps:['Load tables to Data Model via Power Query or Power Pivot','Define relationships in Diagram View','One-to-many relationships: fact tables lean, dimensions clean','Write DAX Measures: Total Sales := SUM(Sales[Amount])','CALCULATE() for filter context overrides','Build KPIs in Power Pivot for dashboard indicators']},
+  {tier:'advanced',ico:'💡',t:'VBA Automation Layer',sub:'ADVANCED · STEP 5',steps:['Alt+F11 → Insert → Module','Workbook_Open() event to refresh all queries on open','Master Sub: refresh → recalculate → PDF → email','Error handling: On Error GoTo ErrHandler','Store credentials in hidden sheet, never hard-coded in VBA','Test on a copy. Always. No exceptions.']},
+];
+function buildDB(){
+  const myT=TO[CU.tier];
+  document.getElementById('dbContent').innerHTML=`<div class="db-grid">${DBMODS.map(m=>{
+    const locked=TO[m.tier]>myT;
+    return`<div class="db-mod ${locked?'lk-wrap':''}">
+      <h3>${m.ico} ${m.t}</h3><div class="msub">${m.sub}</div>
+      <ul class="slist">${m.steps.map((s,i)=>`<li><span class="snum">${i+1}</span><span>${s}</span></li>`).join('')}</ul>
+      ${locked?`<div class="lock-sh"><span class="lkico">🔒</span><p>REQUIRES ${m.tier.toUpperCase()}</p></div>`:''}
+    </div>`;
+  }).join('')}</div>`;
+}
+
+// ══ FORMULA REF ══
+const FDATA=[
+  {cat:'Math',tier:'beginner',name:'SUM',ex:'=SUM(A1:A100)',desc:'Add all numbers in a range'},
+  {cat:'Math',tier:'beginner',name:'AVERAGE',ex:'=AVERAGE(B2:B50)',desc:'Arithmetic mean'},
+  {cat:'Math',tier:'beginner',name:'MIN/MAX',ex:'=MIN(C2:C100)',desc:'Smallest or largest value'},
+  {cat:'Math',tier:'beginner',name:'ROUND',ex:'=ROUND(A1,2)',desc:'Round to specified decimal places'},
+  {cat:'Math',tier:'intermediate',name:'SUMIF',ex:'=SUMIF(A:A,"West",B:B)',desc:'Sum if one condition matches'},
+  {cat:'Math',tier:'intermediate',name:'SUMIFS',ex:'=SUMIFS(C:C,A:A,"West",B:B,"Q1")',desc:'Sum with multiple conditions'},
+  {cat:'Math',tier:'advanced',name:'SUMPRODUCT',ex:'=SUMPRODUCT(B2:B100,C2:C100)',desc:'Multiply arrays then sum — extremely powerful for weighted calcs'},
+  {cat:'Counting',tier:'beginner',name:'COUNT',ex:'=COUNT(A:A)',desc:'Count numeric cells only'},
+  {cat:'Counting',tier:'beginner',name:'COUNTA',ex:'=COUNTA(A:A)',desc:'Count non-empty cells (any type)'},
+  {cat:'Counting',tier:'beginner',name:'COUNTBLANK',ex:'=COUNTBLANK(A2:A100)',desc:'Count empty cells'},
+  {cat:'Counting',tier:'intermediate',name:'COUNTIF',ex:'=COUNTIF(A:A,"West")',desc:'Count cells matching one condition'},
+  {cat:'Counting',tier:'intermediate',name:'COUNTIFS',ex:'=COUNTIFS(A:A,"West",B:B,"Q1")',desc:'Count with multiple conditions'},
+  {cat:'Logic',tier:'beginner',name:'IF',ex:'=IF(A1>100,"High","Low")',desc:'Return one value if true, another if false'},
+  {cat:'Logic',tier:'intermediate',name:'IFS',ex:'=IFS(A1>=90,"A",A1>=80,"B",TRUE,"F")',desc:'Multiple conditions without nesting IFs'},
+  {cat:'Logic',tier:'intermediate',name:'AND/OR',ex:'=AND(A1>0,B1<100)',desc:'AND=all must be true; OR=any must be true'},
+  {cat:'Logic',tier:'intermediate',name:'IFERROR',ex:'=IFERROR(VLOOKUP(...),"Not Found")',desc:'Replace errors with custom text — use on all lookups'},
+  {cat:'Logic',tier:'advanced',name:'IFS+SWITCH',ex:'=SWITCH(A1,"Y","Yes","N","No","Unknown")',desc:'Elegant multi-condition without nested IFs'},
+  {cat:'Lookup',tier:'intermediate',name:'VLOOKUP',ex:'=VLOOKUP(A2,$D:$F,2,FALSE)',desc:'Left-to-right lookup — legacy but widely used'},
+  {cat:'Lookup',tier:'intermediate',name:'INDEX+MATCH',ex:'=INDEX(C:C,MATCH(A2,B:B,0))',desc:'More flexible than VLOOKUP — no column index, any direction'},
+  {cat:'Lookup',tier:'advanced',name:'XLOOKUP',ex:'=XLOOKUP(A2,Sheet2!A:A,Sheet2!C:C,"N/A")',desc:'Modern replacement — any direction, cleaner syntax'},
+  {cat:'Lookup',tier:'advanced',name:'XMATCH',ex:'=XMATCH("Smith",A:A,0)',desc:'Modern MATCH — more options and search modes'},
+  {cat:'Text',tier:'beginner',name:'TRIM',ex:'=TRIM(A1)',desc:'Remove leading, trailing, extra spaces'},
+  {cat:'Text',tier:'beginner',name:'UPPER/LOWER/PROPER',ex:'=PROPER(A1)',desc:'Convert text case. PROPER capitalizes each word.'},
+  {cat:'Text',tier:'beginner',name:'LEN',ex:'=LEN(A1)',desc:'Count characters in a string'},
+  {cat:'Text',tier:'intermediate',name:'LEFT/RIGHT/MID',ex:'=LEFT(A1,5)',desc:'Extract characters from start, end, or middle'},
+  {cat:'Text',tier:'intermediate',name:'CONCATENATE/&',ex:'=A1&", "&B1',desc:'Join strings. Use & operator — faster than the function.'},
+  {cat:'Text',tier:'intermediate',name:'TEXTJOIN',ex:'=TEXTJOIN(", ",TRUE,A2:A20)',desc:'Join multiple cells with delimiter, ignoring blanks'},
+  {cat:'Text',tier:'intermediate',name:'SUBSTITUTE',ex:'=SUBSTITUTE(A1," ","-")',desc:'Replace specific text within a string'},
+  {cat:'Date & Time',tier:'beginner',name:'TODAY/NOW',ex:'=TODAY()',desc:'Current date (TODAY) or date+time (NOW)'},
+  {cat:'Date & Time',tier:'intermediate',name:'DATEDIF',ex:'=DATEDIF(A1,TODAY(),"Y")',desc:'Days/months/years between dates — use "D","M","Y"'},
+  {cat:'Date & Time',tier:'intermediate',name:'NETWORKDAYS',ex:'=NETWORKDAYS(A1,B1)',desc:'Business days between dates, excluding weekends'},
+  {cat:'Date & Time',tier:'intermediate',name:'EOMONTH',ex:'=EOMONTH(TODAY(),0)',desc:'Last day of a month. 0=current, 1=next.'},
+  {cat:'Advanced Arrays',tier:'advanced',name:'FILTER',ex:'=FILTER(A2:C100,C2:C100>1000,"None")',desc:'Dynamic array — returns rows matching condition'},
+  {cat:'Advanced Arrays',tier:'advanced',name:'SORT',ex:'=SORT(A2:B100,2,-1)',desc:'Sort a range — auto-spills. -1 = descending.'},
+  {cat:'Advanced Arrays',tier:'advanced',name:'UNIQUE',ex:'=UNIQUE(A2:A100)',desc:'Return unique values — auto-spills distinct list'},
+  {cat:'Advanced Arrays',tier:'advanced',name:'SEQUENCE',ex:'=SEQUENCE(10,1,1,1)',desc:'Generate a number sequence: rows, cols, start, step'},
+  {cat:'Advanced Arrays',tier:'advanced',name:'LAMBDA',ex:'=LAMBDA(rev,cost,(rev-cost)/rev)',desc:'Define custom reusable functions — name via Name Manager'},
+  {cat:'Advanced Arrays',tier:'advanced',name:'LET',ex:'=LET(tot,SUM(A:A),avg,AVERAGE(A:A),tot/avg)',desc:'Define named variables inside a formula — huge readability win'},
+  {cat:'Financial',tier:'intermediate',name:'PMT',ex:'=PMT(6.5%/12,60,25000)',desc:'Monthly loan payment. Rate=monthly, nper=total payments.'},
+  {cat:'Financial',tier:'advanced',name:'NPV',ex:'=NPV(0.08,B2:B7)',desc:'Net Present Value of future cash flows'},
+  {cat:'Financial',tier:'advanced',name:'IRR',ex:'=IRR(B1:B6)',desc:'Internal Rate of Return for a cash flow series'},
+  {cat:'Statistical',tier:'intermediate',name:'MEDIAN',ex:'=MEDIAN(A2:A100)',desc:'Middle value — more robust than AVERAGE for skewed data'},
+  {cat:'Statistical',tier:'advanced',name:'STDEV',ex:'=STDEV(B2:B100)',desc:'Standard deviation of a sample'},
+  {cat:'Statistical',tier:'advanced',name:'PERCENTILE',ex:'=PERCENTILE(A2:A100,0.9)',desc:'k-th percentile. 0.9 = 90th percentile.'},
+];
+function buildFormulas(){renderF('')}
+function filterF(){renderF(document.getElementById('fSearch').value)}
+function renderF(q){
+  const myT=TO[CU.tier];const ql=q.toLowerCase();
+  const byCat={};
+  FDATA.filter(f=>!ql||f.name.toLowerCase().includes(ql)||f.desc.toLowerCase().includes(ql)||f.cat.toLowerCase().includes(ql))
+    .forEach(f=>{if(!byCat[f.cat])byCat[f.cat]=[];byCat[f.cat].push(f)});
+  document.getElementById('fContent').innerHTML=Object.entries(byCat).map(([cat,rows])=>`
+    <div class="scut-sec"><h3>📐 ${cat}</h3>
+    <table class="ftbl"><thead><tr><th>Function</th><th>Example</th><th>Description</th><th>Level</th></tr></thead><tbody>
+    ${rows.map(f=>{const locked=TO[f.tier]>myT;return`<tr style="${locked?'opacity:.4':''}">
+      <td class="fname">${f.name}${locked?' 🔒':''}</td>
+      <td style="font-family:var(--mono);font-size:12px;color:${locked?'var(--dim)':'#CCC'}">${locked?'••••':f.ex}</td>
+      <td>${locked?'<span style="color:var(--dim)">Unlock at '+f.tier+'</span>':f.desc}</td>
+      <td><span class="badge ${f.tier==='beginner'?'bg':f.tier==='intermediate'?'by':'br'}">${f.tier.substring(0,3).toUpperCase()}</span></td>
+    </tr>`}).join('')}
+    </tbody></table></div>`).join('')||'<p style="color:var(--dim);font-family:var(--mono)">No formulas match.</p>';
+}
+
+// ══ PIVOT DEEP DIVE ══
+function buildPivot(){
+  document.getElementById('pivotContent').innerHTML=`
+  <div class="cgrid">
+    ${[
+      {ico:'🏗️',t:'Build Your First Pivot',tier:'beginner',b:'bg',bl:'BEGINNER',d:'Raw data → structured summary in 4 clicks.',steps:['Click any cell inside your data','Insert → PivotTable → New Worksheet → OK','Drag Region to Rows field','Drag Sales to Values field → Sum','Done. You just summarized your entire dataset.']},
+      {ico:'🔧',t:'Pivot Customization',tier:'intermediate',b:'by',bl:'INTERMEDIATE',d:'Sort, filter, calculated fields, grouping.',steps:['Right-click value → Show Values As → % of Total','Insert → Calculated Field → name it, write formula','Right-click date field → Group → by Month/Quarter/Year','Sort: click dropdown in row label → sort largest to smallest','Remove subtotals: Design → Subtotals → Do Not Show']},
+      {ico:'🎛️',t:'Slicers & Timelines',tier:'intermediate',b:'by',bl:'INTERMEDIATE',d:'Visual filters that click — dashboard-ready.',steps:['PivotTable Analyze → Insert Slicer → choose fields','Format slicers: Slicer tab → Columns → match your layout','Connect one slicer to multiple pivots: right-click slicer → Report Connections','Timeline: PivotTable Analyze → Insert Timeline → pick date column','Slicers are what separate a spreadsheet from a dashboard']},
+      {ico:'📊',t:'Pivot Chart',tier:'intermediate',b:'by',bl:'INTERMEDIATE',d:'Chart that moves with your pivot — dynamically.',steps:['Select inside your pivot → PivotTable Analyze → PivotChart','Choose type: bar for comparisons, line for trends','Right-click chart → Move Chart → New Sheet for cleaner layout','Filter buttons on chart = same slicers as pivot','Format: no gridlines, no chart border, clean title only']},
+      {ico:'⚡',t:'Multi-Table Pivot',tier:'advanced',b:'br',bl:'ADVANCED',d:'Cross two tables in one pivot — no VLOOKUP merge needed.',steps:['Load both tables to Data Model (check "Add to Data Model" on import)','Power Pivot → Manage → create relationship between key columns','Insert PivotTable → check "Use this workbook\'s Data Model"','Now drag fields from both tables into one pivot freely','This is what replaces the VLOOKUP + pivot two-step workflow']},
+      {ico:'📐',t:'DAX Calculated Measures',tier:'advanced',b:'br',bl:'ADVANCED',d:'Write custom calculations in the data model layer.',steps:['Power Pivot → Calculations area → type measure directly','Total Sales := SUM(Sales[Amount])','Margin % := DIVIDE([Revenue]-[Cost],[Revenue])','YTD Sales := CALCULATE([Total Sales],DATESYTD(Calendar[Date]))','Measures recalculate based on filter context automatically']},
+    ].map(m=>`<div class="card">
+      <div class="cico">${m.ico}</div><h3>${m.t}</h3><p>${m.d}</p>
+      <div class="card-meta"><span class="badge ${m.b}">${m.bl}</span></div>
+      <div style="margin-top:14px"><ol class="step-ol">${m.steps.map(s=>`<li>${s}</li>`).join('')}</ol></div>
+    </div>`).join('')}
+  </div>`;
+}
+
+// ══ CHARTS ══
+function buildCharts(){
+  document.getElementById('chartsContent').innerHTML=`
+  <div class="notice">📊 Rule #1: Every chart choice should be answerable by "what question does this answer for the viewer?"</div>
+  <div class="cgrid">
+    ${[
+      {ico:'📊',t:'Bar / Column Chart',b:'bg',d:'Compare values across categories. Most common chart you\'ll build.',when:'When: comparing performance by region, rep, product.',how:'Select data → Insert → Clustered Bar. Remove gridlines. Bold the title. Nothing else.'},
+      {ico:'📈',t:'Line Chart',b:'by',d:'Show trends over time. Only use for time-series data.',when:'When: weekly installs, monthly revenue, daily tickets.',how:'Date on X-axis must be a real date type, not text. Sort ascending before charting.'},
+      {ico:'🥧',t:'Pie / Donut Chart',b:'bg',d:'Show proportions of a whole. Use rarely — humans read bars better.',when:'When: showing % of total with 5 or fewer categories.',how:'Never use 3D pie. Never. Add data labels, not legend. Explode the most important slice.'},
+      {ico:'📉',t:'Combo Chart',b:'by',d:'Two chart types in one — bar + line. Show volume AND trend together.',when:'Sales bars + goal line. Installs + satisfaction score.',how:'Insert → Combo Chart → assign each series to bar or line. Use secondary axis for different scales.'},
+      {ico:'🔵',t:'Scatter Plot',b:'br',d:'Show correlation between two variables.',when:'Price vs units sold. Experience vs performance score.',how:'Both axes must be numbers. Add trendline: right-click series → Add Trendline → Linear.'},
+      {ico:'🌡️',t:'Heat Map (Conditional Format)',b:'br',d:'Not a chart — a color-coded table. More readable for dense data.',when:'Sales by region × month. Response time by hour × day.',how:'Select range → Conditional Formatting → Color Scales → 3-color. Minimum=red, max=green.'},
+    ].map(m=>`<div class="card">
+      <div class="cico">${m.ico}</div><h3>${m.t}</h3>
+      <div class="card-meta"><span class="badge ${m.b}">${m.ico==='📊'||m.ico==='🥧'?'bg':m.ico==='📈'||m.ico==='🌡️'?'by':'br'}</span></div>
+      <p style="margin-top:10px">${m.d}</p>
+      <div class="fbox" style="margin-top:12px"><div class="flbl">When to Use</div>${m.when}</div>
+      <div class="tbox"><span class="ti">⚙️</span><p>${m.how}</p></div>
+    </div>`).join('')}
+  </div>
+  <div class="div"></div>
+  <h3 style="font-family:var(--head);font-size:18px;font-weight:700;margin-bottom:16px">📐 Chart Formatting Standards</h3>
+  <div class="mlab">
+    <ul style="list-style:none"><li style="padding:8px 0;border-bottom:1px solid var(--border);color:#CCC;font-size:14px">✅ Always include a descriptive title that tells the viewer the insight, not just the data ("West Region Leads Q1 Sales" not "Sales by Region")</li>
+    <li style="padding:8px 0;border-bottom:1px solid var(--border);color:#CCC;font-size:14px">✅ Remove chart border (Format Chart Area → No border)</li>
+    <li style="padding:8px 0;border-bottom:1px solid var(--border);color:#CCC;font-size:14px">✅ Minimize gridlines — one set max, light gray, not black</li>
+    <li style="padding:8px 0;border-bottom:1px solid var(--border);color:#CCC;font-size:14px">✅ Data labels OR a legend — never both</li>
+    <li style="padding:8px 0;border-bottom:1px solid var(--border);color:#CCC;font-size:14px">✅ Consistent color palette — 2–3 colors max per chart</li>
+    <li style="padding:8px 0;color:#CCC;font-size:14px">❌ Never use 3D charts. Ever. They distort perception of values.</li></ul>
+  </div>`;
+}
+
+// ══ DATA VALIDATION ══
+function buildVal(){
+  document.getElementById('valContent').innerHTML=`
+  <div class="cgrid">
+    ${[
+      {ico:'📋',t:'Simple Dropdown List',b:'bg',bl:'BEGINNER',d:'Lock a cell to only allow choices from a list.',steps:['Select the cell(s) to restrict','Data → Data Validation → Allow: List','Source: type items separated by commas, OR select a range','OK. The cell now has a dropdown arrow.','User cannot type anything not in the list.']},
+      {ico:'🔢',t:'Number & Date Rules',b:'by',bl:'INTERMEDIATE',d:'Only allow numbers within a range, or dates in a window.',steps:['Data → Data Validation → Allow: Whole number or Date','Set Between, Greater Than, Less Than conditions','Error Alert tab: set Title + error message text','Style: Stop = blocks entry. Warning = alerts but allows. Information = just notes.','Use for: quantity fields, date ranges, budget caps']},
+      {ico:'💬',t:'Custom Input Message',b:'by',bl:'INTERMEDIATE',d:'Show a tooltip when a user selects a validated cell.',steps:['Data Validation → Input Message tab','Check "Show input message when cell is selected"','Title = short label (e.g., "Region")','Message = instructions (e.g., "Select from the approved region list")','Appears as a tooltip — helpful onboarding for shared files']},
+      {ico:'🔗',t:'Dependent Dropdowns',b:'br',bl:'ADVANCED',d:'Second dropdown changes based on first selection.',steps:['Create named ranges for each sub-list (name = parent value exactly)','Name the ranges via Formulas → Name Manager or Ctrl+Shift+F3','First dropdown: static list of parent values','Second dropdown: Data Validation → Source: =INDIRECT(A2)','A2 = the cell with the parent selection — INDIRECT resolves the name']},
+      {ico:'📐',t:'Custom Formula Validation',b:'br',bl:'ADVANCED',d:'Validate based on any formula — no GUI option covers this.',steps:['Data Validation → Allow: Custom','Formula field: write any formula that returns TRUE/FALSE','=LEN(A1)<=10  → limit to 10 characters','=ISNUMBER(A1)  → numbers only','=COUNTIF($A$2:$A$100,A2)=1  → no duplicates in column']},
+      {ico:'🛡',t:'Protect the Sheet',b:'br',bl:'ADVANCED',d:'Lock validated cells so users can\'t override validation by paste.',steps:['Unlock only the input cells: select them → Format Cells → Protection → uncheck Locked','Lock validated cells: leave them Locked (default)','Review → Protect Sheet → set password','Locked cells: users can read but not edit','Unlocked cells: users can enter data — validation still applies']},
+    ].map(m=>`<div class="card">
+      <div class="cico">${m.ico}</div><h3>${m.t}</h3><p>${m.d}</p>
+      <div class="card-meta"><span class="badge ${m.b}">${m.bl}</span></div>
+      <ol class="step-ol" style="margin-top:12px">${m.steps.map(s=>`<li>${s}</li>`).join('')}</ol>
+    </div>`).join('')}
+  </div>`;
+}
+
+// ══ CONDITIONAL FORMATTING ══
+function buildCF(){
+  document.getElementById('cfContent').innerHTML=`
+  <div class="notice">🎨 Conditional Formatting runs on rules. Rules have priority. Higher rules in the list override lower ones. Always check Manage Rules when behavior is unexpected.</div>
+  <div class="cgrid">
+    ${[
+      {ico:'🔴',t:'Highlight Rules',b:'bg',bl:'BEGINNER',d:'Most used: color cells based on value comparison.',rules:['Greater Than → red for overbudget values','Less Than → green for on-target numbers','Between → yellow for warning range','Equal To → flag specific text like "Overdue"','Duplicate Values → find dupes in a column instantly']},
+      {ico:'🌈',t:'Color Scales',b:'bg',bl:'BEGINNER',d:'Gradient color across a range — automatic heat map.',rules:['2-Color: low value = one color, high = another','3-Color: adds a midpoint (white or yellow = median)','Best for: survey scores, performance ratings, time-based data','Avoid when values are very similar — gradient won\'t show contrast','Works on any numeric column — just select and apply']},
+      {ico:'📊',t:'Data Bars',b:'by',bl:'INTERMEDIATE',d:'Mini bar charts inside cells — instant visual comparison.',rules:['Select column → Cond Format → Data Bars → Gradient or Solid','Gradient = softer look. Solid = cleaner for dashboards.','More Rules → set minimum and maximum manually for better scale','Show Bar Only = hides the number (useful for pure visual column)','Combine with number format: bars show magnitude, numbers show exact value']},
+      {ico:'🏆',t:'Icon Sets',b:'by',bl:'INTERMEDIATE',d:'Up/down arrows, traffic lights, stars — visual KPI indicators.',rules:['3 icons: green/yellow/red by percentage thresholds (default 67%/33%)','5 icons: more granularity for rating-type data','Manage Rules → change icon type and threshold percentages','Show Icon Only = clean dashboard appearance (hides number)','Best for: compliance status, trend direction, priority levels']},
+      {ico:'📐',t:'Formula-Based Rules',b:'br',bl:'ADVANCED',d:'Any formula that returns TRUE/FALSE triggers the format.',rules:['=$B2="Overdue" → highlight entire row based on one cell','=MOD(ROW(),2)=0 → alternate row banding with exact color control','=AND($C2>1000,$D2="West") → multi-condition row highlight','=COUNTIF($A$2:$A2,$A2)>1 → flag duplicates in real time','=$C2<AVERAGE($C$2:$C$100) → highlight below-average values']},
+      {ico:'⚙️',t:'Managing Rules',b:'br',bl:'ADVANCED',d:'When formatting behaves wrong — this is why.',rules:['Home → Conditional Formatting → Manage Rules → "This Worksheet"','Rules listed top-down: higher = higher priority','"Stop If True" checkbox: halts evaluation at that rule — use to prevent conflicts','Copy/paste cells can duplicate rules and create conflicts — always check','Clear Rules: select range → Cond Format → Clear Rules from Selected Cells']},
+    ].map(m=>`<div class="card">
+      <div class="cico">${m.ico}</div><h3>${m.t}</h3><p>${m.d}</p>
+      <div class="card-meta"><span class="badge ${m.b}">${m.bl}</span></div>
+      <ul style="list-style:none;margin-top:12px">${m.rules.map(r=>`<li style="padding:6px 0 6px 16px;position:relative;border-bottom:1px solid rgba(255,255,255,.04);color:#CCC;font-size:13px"><span style="position:absolute;left:0;color:var(--red)">▸</span>${r}</li>`).join('')}</ul>
+    </div>`).join('')}
+  </div>`;
+}
+
+// ══ POWER BI CONNECTION ══
+function buildPBI(){
+  const myT=TO[CU.tier];
+  document.getElementById('pbiContent').innerHTML=`
+  ${myT<2?`<div style="text-align:center;padding:60px 20px">
+    <div style="font-size:48px;margin-bottom:16px">🔒</div>
+    <h3 style="font-family:var(--head);font-size:22px;font-weight:700;margin-bottom:8px">Advanced Access Required</h3>
+    <p style="color:var(--dim2);font-size:14px">Power BI connection training is unlocked at the Advanced level. Log in with the <strong>ssu2026</strong> access code and select <strong>Advanced</strong>.</p>
+  </div>`:`
+  <div class="notice">🌐 Power BI is Excel's big sibling. Same data model thinking — different visualization layer. Bridge between them is a named Excel Table or Power Query output.</div>
+  <div class="cgrid">
+    ${[
+      {ico:'📤',t:'Excel → Power BI Desktop',b:'br',bl:'METHOD 1',d:'Import a named Excel Table directly into Power BI.',steps:['Save your Excel file with at least one structured Table (Ctrl+T)','Open Power BI Desktop → Get Data → Excel Workbook','Navigate to your file → select the Table(s) to import','Transform Data (Power Query in PBI) or Load directly','Your Excel table is now a dataset in Power BI']},
+      {ico:'☁️',t:'Excel → Power BI Service',b:'br',bl:'METHOD 2',d:'Publish to Power BI Service for online dashboards.',steps:['Open Excel → File → Publish → Power BI (requires PBI account)','Choose Workbook or just the Data Model','Published file appears in your Power BI workspace','Build reports on top of it in the browser','Share with team via workspace permissions — no Excel needed on their end']},
+      {ico:'🔗',t:'Live Connection',b:'br',bl:'METHOD 3',d:'Power BI reads from Excel file live — changes auto-refresh.',steps:['Store Excel file on SharePoint or OneDrive for Business','Power BI → Get Data → Excel → paste the SharePoint URL','Set up Scheduled Refresh in Power BI Service (up to 8x/day free)','Anyone with dashboard access sees updated data automatically','Note: file must stay at the same URL — moving it breaks the connection']},
+      {ico:'📐',t:'When to Use Power BI vs Excel',b:'bb',bl:'DECISION GUIDE',d:'They\'re not competing — they\'re different layers.',steps:['Excel: ad-hoc analysis, sharing with non-PBI users, formula-heavy work','Power BI: sharing dashboards company-wide, mobile access, row-level security','Excel: better for text/mixed data manipulation','Power BI: better for large datasets (10M+ rows), interactive filtering','Use both: Excel for data prep → Power BI for distribution']},
+      {ico:'⚡',t:'Optimize Excel for Power BI',b:'br',bl:'BEST PRACTICES',d:'Structure your Excel file so Power BI consumes it cleanly.',steps:['Every data range in a structured Table (Ctrl+T)','No merged cells anywhere in the data area','First row = headers only — no multi-row headers','Consistent data types in each column — never mix numbers and text','Dates as real date type, not text — test with DATEVALUE()','No blank rows or columns inside tables']},
+      {ico:'🔄',t:'Keep Data Model in Sync',b:'br',bl:'MAINTENANCE',d:'When your Excel structure changes, update Power BI.',steps:['Added columns: refresh in Power BI → appear automatically','Renamed columns: breaks queries — use "Rename" in Power Query to fix','New tables: re-run Get Data to add them to the model','Schema changes: Test in Power BI immediately after Excel changes','Version your Excel files: sales_data_v1, v2 — never modify a live source silently']},
+    ].map(m=>`<div class="card">
+      <div class="cico">${m.ico}</div><h3>${m.t}</h3><p>${m.d}</p>
+      <div class="card-meta"><span class="badge ${m.b}">${m.bl}</span></div>
+      <ol class="step-ol" style="margin-top:12px">${m.steps.map(s=>`<li>${s}</li>`).join('')}</ol>
+    </div>`).join('')}
+  </div>`}`;
+}
+
+// ══════════════════════════════════════════
+// FORMULA SANDBOX
+// ══════════════════════════════════════════
+function buildSandbox(){
+  const c=document.getElementById('sandboxContent');
+  c.innerHTML=`
+  <!-- VISUAL EXCEL MOCKUP 1: Basic Data + SUM -->
+  <div class="sandbox-wrap">
+    <h3>📊 What Excel Actually Looks Like</h3>
+    <div class="sandbox-desc">This is a real spreadsheet layout. Columns = letters. Rows = numbers. Formulas live in cells and start with =</div>
+    <div class="xl-sheet">
+      <div class="xl-toolbar">
+        <span class="xl-logo">X</span>
+        <span>Excel — Sales_Data.xlsx</span>
+      </div>
+      <div class="xl-ribbon">
+        <span class="xl-ribbon-btn active">Home</span>
+        <span class="xl-ribbon-btn">Insert</span>
+        <span class="xl-ribbon-btn">Formulas</span>
+        <span class="xl-ribbon-btn">Data</span>
+      </div>
+      <div class="xl-formulabar">
+        <span class="xl-namebox">B6</span>
+        <span class="xl-fx">fx</span>
+        <span class="xl-formulabar-input">=SUM(B2:B5)</span>
+      </div>
+      <div class="xl-grid">
+        <table class="xl-table">
+          <thead>
+            <tr>
+              <th class="row-hdr"></th>
+              <th>A</th><th>B</th><th>C</th><th>D</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="row-hdr">1</td><td class="header-cell">Region</td><td class="header-cell">Sales</td><td class="header-cell">Goal</td><td class="header-cell">% of Goal</td></tr>
+            <tr><td class="row-hdr">2</td><td>Las Vegas</td><td class="num-cell">14200</td><td class="num-cell">12000</td><td class="formula-cell num-cell">=B2/C2</td></tr>
+            <tr><td class="row-hdr">3</td><td>Reno</td><td class="num-cell">9800</td><td class="num-cell">10000</td><td class="formula-cell num-cell">=B3/C3</td></tr>
+            <tr><td class="row-hdr">4</td><td>Cheyenne</td><td class="num-cell">11500</td><td class="num-cell">11000</td><td class="formula-cell num-cell">=B4/C4</td></tr>
+            <tr><td class="row-hdr">5</td><td>Salt Lake</td><td class="num-cell">8900</td><td class="num-cell">9500</td><td class="formula-cell num-cell">=B5/C5</td></tr>
+            <tr><td class="row-hdr">6</td><td><strong>TOTAL</strong></td><td class="selected formula-cell num-cell"><strong>=SUM(B2:B5)</strong></td><td class="formula-cell num-cell">=SUM(C2:C5)</td><td class="formula-cell num-cell">=B6/C6</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="xl-status">
+        <span>Ready</span>
+        <span>Sum: 44,400</span>
+        <span>Average: 11,100</span>
+        <span>Count: 4</span>
+      </div>
+    </div>
+    <div class="notice" style="margin-top:0">💡 Cell B6 is selected (blue border). The formula bar at top shows <strong>=SUM(B2:B5)</strong> — that's what's actually stored. The cell displays <strong>44400</strong>. Display ≠ Content.</div>
+  </div>
+
+  <!-- VISUAL EXCEL MOCKUP 2: IF Formula -->
+  <div class="sandbox-wrap">
+    <h3>❓ IF Formula — What It Looks Like vs What It Calculates</h3>
+    <div class="sandbox-desc">Column E contains an IF formula. Excel evaluates the condition and shows the result — not the formula text.</div>
+    <div class="xl-sheet">
+      <div class="xl-toolbar"><span class="xl-logo">X</span><span>Excel — Technician_Scores.xlsx</span></div>
+      <div class="xl-formulabar">
+        <span class="xl-namebox">E2</span>
+        <span class="xl-fx">fx</span>
+        <span class="xl-formulabar-input">=IF(D2>=90,"PASS","FAIL")</span>
+      </div>
+      <div class="xl-grid">
+        <table class="xl-table">
+          <thead><tr><th class="row-hdr"></th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th></tr></thead>
+          <tbody>
+            <tr><td class="row-hdr">1</td><td class="header-cell">ID</td><td class="header-cell">First</td><td class="header-cell">Last</td><td class="header-cell">Score</td><td class="header-cell">Result</td></tr>
+            <tr><td class="row-hdr">2</td><td>T-001</td><td>Danielle</td><td>Torres</td><td class="num-cell">94</td><td class="selected formula-cell" style="color:#1a5c38;font-weight:bold">PASS</td></tr>
+            <tr><td class="row-hdr">3</td><td>T-002</td><td>Marcus</td><td>Webb</td><td class="num-cell">78</td><td class="formula-cell" style="color:#cc0000;font-weight:bold">FAIL</td></tr>
+            <tr><td class="row-hdr">4</td><td>T-003</td><td>Krista</td><td>Huang</td><td class="num-cell">91</td><td class="formula-cell" style="color:#1a5c38;font-weight:bold">PASS</td></tr>
+            <tr><td class="row-hdr">5</td><td>T-004</td><td>Devon</td><td>Nash</td><td class="num-cell">85</td><td class="formula-cell" style="color:#cc0000;font-weight:bold">FAIL</td></tr>
+            <tr><td class="row-hdr">6</td><td>T-005</td><td>Aaliyah</td><td>Cross</td><td class="num-cell">90</td><td class="formula-cell" style="color:#1a5c38;font-weight:bold">PASS</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="xl-status"><span>Ready</span><span>Count: 5</span></div>
+    </div>
+    <div class="notice" style="margin-top:0">💡 E2 shows <strong>PASS</strong> — but the formula bar shows <strong>=IF(D2>=90,"PASS","FAIL")</strong>. Excel ran the test: is 94 >= 90? Yes → show "PASS". Copy E2 down to E3:E6 and it adjusts automatically — D2 becomes D3, D4, etc.</div>
+  </div>
+
+  <!-- VISUAL EXCEL MOCKUP 3: VLOOKUP -->
+  <div class="sandbox-wrap">
+    <h3>🔍 VLOOKUP — Two Tables, One Formula</h3>
+    <div class="sandbox-desc">Sheet1 has IDs + Names. Sheet2 uses VLOOKUP to pull the name automatically. No copy-paste.</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;flex-wrap:wrap" id="vl-grid">
+      <div>
+        <div style="font-family:var(--mono);font-size:11px;color:var(--dim);margin-bottom:6px;letter-spacing:1px">SHEET1 — Master List (lookup source)</div>
+        <div class="xl-sheet">
+          <div class="xl-toolbar"><span class="xl-logo">X</span><span>Sheet1</span></div>
+          <div class="xl-grid"><table class="xl-table">
+            <thead><tr><th class="row-hdr"></th><th>A</th><th>B</th></tr></thead>
+            <tbody>
+              <tr><td class="row-hdr">1</td><td class="header-cell">Tech_ID</td><td class="header-cell">Full Name</td></tr>
+              <tr><td class="row-hdr">2</td><td>T-001</td><td>Danielle Torres</td></tr>
+              <tr><td class="row-hdr">3</td><td>T-002</td><td>Marcus Webb</td></tr>
+              <tr><td class="row-hdr">4</td><td>T-003</td><td>Krista Huang</td></tr>
+              <tr><td class="row-hdr">5</td><td>T-004</td><td>Devon Nash</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+      </div>
+      <div>
+        <div style="font-family:var(--mono);font-size:11px;color:var(--dim);margin-bottom:6px;letter-spacing:1px">SHEET2 — Installs (uses VLOOKUP)</div>
+        <div class="xl-sheet">
+          <div class="xl-toolbar"><span class="xl-logo">X</span><span>Sheet2</span></div>
+          <div class="xl-formulabar">
+            <span class="xl-namebox">C2</span>
+            <span class="xl-fx">fx</span>
+            <span class="xl-formulabar-input" style="font-size:11px">=VLOOKUP(A2,Sheet1!$A:$B,2,FALSE)</span>
+          </div>
+          <div class="xl-grid"><table class="xl-table">
+            <thead><tr><th class="row-hdr"></th><th>A</th><th>B</th><th>C</th></tr></thead>
+            <tbody>
+              <tr><td class="row-hdr">1</td><td class="header-cell">Tech_ID</td><td class="header-cell">Installs</td><td class="header-cell">Name (auto)</td></tr>
+              <tr><td class="row-hdr">2</td><td>T-003</td><td class="num-cell">12</td><td class="selected formula-cell">Krista Huang</td></tr>
+              <tr><td class="row-hdr">3</td><td>T-001</td><td class="num-cell">8</td><td class="formula-cell">Danielle Torres</td></tr>
+              <tr><td class="row-hdr">4</td><td>T-002</td><td class="num-cell">15</td><td class="formula-cell">Marcus Webb</td></tr>
+              <tr><td class="row-hdr">5</td><td>T-999</td><td class="num-cell">4</td><td class="error-cell">#N/A</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+      </div>
+    </div>
+    <div class="notice" style="margin-top:14px">💡 Row 5 shows <strong>#N/A</strong> because T-999 doesn't exist in Sheet1. That's not a bug — that's Excel telling you the ID has no match. Fix: wrap with IFERROR → <code>=IFERROR(VLOOKUP(...),"Not Found")</code></div>
+  </div>
+
+  <!-- LIVE TRY-IT SANDBOX -->
+  <div class="sandbox-wrap">
+    <h3>🧪 Live Formula Tester</h3>
+    <div class="sandbox-desc">Pick a formula type, enter your values, hit Test. See the result Excel would return — including what happens when you get it wrong.</div>
+    <div class="try-row">
+      <div class="try-field" style="max-width:200px">
+        <label>Formula Type</label>
+        <select id="sb-type" onchange="sbTypeChange()" style="width:100%;background:#0D0D0D;border:1px solid var(--border2);border-radius:3px;color:var(--white);font-family:var(--mono);font-size:13px;padding:10px 13px;outline:none">
+          <option value="">— Choose —</option>
+          <option value="sum">SUM</option>
+          <option value="avg">AVERAGE</option>
+          <option value="if">IF</option>
+          <option value="pct">% Change</option>
+          <option value="concat">Concatenate (&)</option>
+          <option value="div">Division (watch the error)</option>
+          <option value="vlookup">VLOOKUP sim</option>
+          <option value="countif">COUNTIF</option>
+        </select>
+      </div>
+      <div id="sb-fields" style="display:flex;gap:10px;flex:1;flex-wrap:wrap"></div>
+    </div>
+    <div class="try-row" style="margin-top:0">
+      <button class="btn-try" onclick="runSandbox()">▶ TEST FORMULA</button>
+      <button class="btn-try" style="background:var(--border2)" onclick="runWrongSandbox()">💥 TEST WITH BAD INPUT</button>
+    </div>
+    <div id="sb-result" class="result-panel" style="display:none">
+      <div class="res-label">RESULT</div>
+      <div class="res-val" id="sb-res-val"></div>
+      <div class="res-explain" id="sb-res-explain"></div>
+    </div>
+  </div>
+
+  <!-- ERROR REFERENCE -->
+  <div class="sandbox-wrap">
+    <h3>💥 Common Errors — What They Mean & How to Fix</h3>
+    <div class="sandbox-desc">These aren't failures. They're Excel telling you exactly what's wrong. Read the code, fix the problem.</div>
+    <div class="error-examples">
+      <div class="err-card">
+        <h4>#DIV/0!</h4>
+        <span class="err-input">=B2/C2 where C2 = 0 or blank</span>
+        <div class="err-output">Result: #DIV/0!</div>
+        <div class="err-why">You divided by zero. Either C2 is empty (Excel reads blank as 0) or it actually contains 0. Fix: =IFERROR(B2/C2,0) or check source data.</div>
+      </div>
+      <div class="err-card">
+        <h4>#N/A</h4>
+        <span class="err-input">=VLOOKUP("T-999",$A:$B,2,FALSE)</span>
+        <div class="err-output">Result: #N/A</div>
+        <div class="err-why">Lookup value not found in the table. Check: spelling mismatch, leading/trailing spaces (use TRIM), text vs number mismatch (T-999 as text vs number). Fix: =IFERROR(VLOOKUP(...),"Not Found")</div>
+      </div>
+      <div class="err-card">
+        <h4>#REF!</h4>
+        <span class="err-input">=VLOOKUP(A2,$B:$C,5,FALSE)</span>
+        <div class="err-output">Result: #REF!</div>
+        <div class="err-why">Column index (5) is larger than the table width (2 columns = B:C). Recount. $B:$C has 2 columns max. Fix: change 5 to 2, or expand your table range.</div>
+      </div>
+      <div class="err-card">
+        <h4>#VALUE!</h4>
+        <span class="err-input">=SUM("apples",B2,C2)</span>
+        <div class="err-output">Result: #VALUE!</div>
+        <div class="err-why">Wrong data type. You tried to do math on text. "apples" is not a number. Fix: remove the text cell, or check that your data column doesn't have text mixed into number cells.</div>
+      </div>
+      <div class="err-card">
+        <h4>#NAME?</h4>
+        <span class="err-input">=SUUM(A1:A10) or =SUM(A1.A10)</span>
+        <div class="err-output">Result: #NAME?</div>
+        <div class="err-why">Excel doesn't recognize the function name or syntax. Usually a typo. SUUM vs SUM. Or you used a period instead of a colon in a range. Fix: retype the formula — IntelliSense will autocomplete the correct name.</div>
+      </div>
+      <div class="err-card">
+        <h4>#NUM!</h4>
+        <span class="err-input">=SQRT(-4) or =IRR({1,1,1})</span>
+        <div class="err-output">Result: #NUM!</div>
+        <div class="err-why">Invalid numeric operation. Square root of a negative doesn't exist in real numbers. Or financial function can't converge on a result. Fix: check your input values are valid for the operation.</div>
+      </div>
+      <div class="err-card">
+        <h4>Wrong answer (no error)</h4>
+        <span class="err-input">=VLOOKUP(A2,$B:$D,2,TRUE)</span>
+        <div class="err-output">Result: Returns wrong name silently</div>
+        <div class="err-why">Using TRUE (approximate match) on unsorted data returns incorrect results with zero warning. This is the most dangerous Excel mistake — wrong data, no error flag. Always use FALSE for exact match.</div>
+      </div>
+      <div class="err-card">
+        <h4>Circular Reference</h4>
+        <span class="err-input">=A1+B1 in cell A1</span>
+        <div class="err-output">Result: 0 or infinite loop warning</div>
+        <div class="err-why">A cell refers to itself in its own formula. Excel shows a status bar warning "Circular References." Fix: Formulas tab → Error Checking → Circular References → navigate to the cell and fix the reference.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CORRECT vs WRONG COMPARISON TABLE -->
+  <div class="sandbox-wrap">
+    <h3>✅ Side-by-Side: Right Way vs Wrong Way</h3>
+    <div class="sandbox-desc">Same goal, two approaches. One works. One breaks. Know the difference before you're in a real file.</div>
+    <table class="compare-table">
+      <thead><tr><th>Goal</th><th>❌ Wrong</th><th>Result</th><th>✅ Right</th><th>Result</th><th>Why</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Sum a column</td>
+          <td class="c-formula">=A1+A2+A3+A4+A5</td>
+          <td class="c-result-ok">Works but...</td>
+          <td class="c-formula">=SUM(A1:A5)</td>
+          <td class="c-result-ok">44,400</td>
+          <td class="c-explain">Manual addition breaks if you add rows. SUM adjusts automatically.</td>
+        </tr>
+        <tr>
+          <td>Exact lookup</td>
+          <td class="c-formula">=VLOOKUP(A2,$B:$D,2,TRUE)</td>
+          <td class="c-result-err">Wrong name</td>
+          <td class="c-formula">=VLOOKUP(A2,$B:$D,2,FALSE)</td>
+          <td class="c-result-ok">Danielle Torres</td>
+          <td class="c-explain">TRUE = approximate match on sorted data only. FALSE = exact. Always FALSE for IDs and names.</td>
+        </tr>
+        <tr>
+          <td>Copy formula down</td>
+          <td class="c-formula">=B2/$B$6 copied → =$B$2/$B$6</td>
+          <td class="c-result-err">All same value</td>
+          <td class="c-formula">=B2/$B$6 → =B3/$B$6</td>
+          <td class="c-result-ok">Each row % correct</td>
+          <td class="c-explain">Lock only the total cell with $. Leave the numerator relative so it shifts per row.</td>
+        </tr>
+        <tr>
+          <td>Handle missing lookup</td>
+          <td class="c-formula">=VLOOKUP(A2,$B:$C,2,FALSE)</td>
+          <td class="c-result-err">#N/A</td>
+          <td class="c-formula">=IFERROR(VLOOKUP(A2,$B:$C,2,FALSE),"Not Found")</td>
+          <td class="c-result-ok">Not Found</td>
+          <td class="c-explain">Wrap every lookup in IFERROR. #N/A in a report looks broken. "Not Found" is informative.</td>
+        </tr>
+        <tr>
+          <td>Combine first + last name</td>
+          <td class="c-formula">=A2+B2</td>
+          <td class="c-result-err">#VALUE!</td>
+          <td class="c-formula">=A2&" "&B2</td>
+          <td class="c-result-ok">Danielle Torres</td>
+          <td class="c-explain">+ is for numbers. & is for text. Can't add words together, but you can concatenate them.</td>
+        </tr>
+        <tr>
+          <td>Percentage of total</td>
+          <td class="c-formula">=B2/B6 copied down</td>
+          <td class="c-result-err">#DIV/0! in B3+</td>
+          <td class="c-formula">=B2/$B$6 copied down</td>
+          <td class="c-result-ok">32%, 22%, 26%...</td>
+          <td class="c-explain">Without the $, B6 shifts to B7, B8 etc — empty cells. Lock the denominator with $B$6.</td>
+        </tr>
+        <tr>
+          <td>Count matching values</td>
+          <td class="c-formula">=COUNT(IF(A:A="West",1))</td>
+          <td class="c-result-err">0 (needs Ctrl+Shift+Enter)</td>
+          <td class="c-formula">=COUNTIF(A:A,"West")</td>
+          <td class="c-result-ok">47</td>
+          <td class="c-explain">COUNTIF exists for exactly this. Don't build array formulas for things that have a native function.</td>
+        </tr>
+        <tr>
+          <td>Today's date</td>
+          <td class="c-formula">Typing "4/8/2026" manually</td>
+          <td class="c-result-err">Stays 4/8/2026 forever</td>
+          <td class="c-formula">=TODAY()</td>
+          <td class="c-result-ok">Always current date</td>
+          <td class="c-explain">Hard-coded dates go stale. =TODAY() recalculates every time the file opens.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  `;
+}
+
+// ── LIVE SANDBOX LOGIC ──
+const SB_CONFIGS = {
+  sum:{
+    fields:[
+      {id:'sb_nums',lbl:'Numbers (comma-separated)',ph:'120, 450, 890, 300, 1200'},
+    ],
+    formula: v => `=SUM(${v[0].split(',').map((_,i)=>`A${i+2}`).join(',')})`,
+    calc: v => {
+      const nums = v[0].split(',').map(x=>parseFloat(x.trim())).filter(x=>!isNaN(x));
+      if(!nums.length) return {val:'#VALUE!',err:true,explain:'No valid numbers entered. Make sure values are comma-separated numbers like: 120, 450, 890'};
+      const result = nums.reduce((a,b)=>a+b,0);
+      return {val:result.toLocaleString(), err:false, explain:`SUM added ${nums.length} values: ${nums.join(' + ')} = ${result.toLocaleString()}`};
+    },
+    wrong: v => ({val:'#VALUE!',err:true,explain:'Wrong input test: if your cells contain text mixed with numbers (like "120 units"), SUM skips the text silently OR returns #VALUE! depending on how it was entered. Always keep number columns clean — numbers only, no text.'})
+  },
+  avg:{
+    fields:[{id:'sb_nums2',lbl:'Numbers (comma-separated)',ph:'85, 92, 78, 95, 88'}],
+    formula: v => `=AVERAGE(A2:A${v[0].split(',').length+1})`,
+    calc: v => {
+      const nums=v[0].split(',').map(x=>parseFloat(x.trim())).filter(x=>!isNaN(x));
+      if(!nums.length) return {val:'#VALUE!',err:true,explain:'No valid numbers found.'};
+      const avg=(nums.reduce((a,b)=>a+b,0)/nums.length).toFixed(2);
+      return {val:avg,err:false,explain:`AVERAGE of ${nums.length} values: (${nums.join('+')})/​${nums.length} = ${avg}. Note: AVERAGE ignores truly blank cells but counts zero-value cells. COUNT vs COUNTA matters here.`};
+    },
+    wrong: v=>({val:'#DIV/0!',err:true,explain:'Wrong input test: =AVERAGE() on an empty range returns #DIV/0! — there\'s nothing to average, so Excel tried to divide by zero. Always make sure your range actually contains data before averaging.'})
+  },
+  if:{
+    fields:[
+      {id:'sb_score',lbl:'Test Value (number)',ph:'87'},
+      {id:'sb_thresh',lbl:'Threshold (pass if >=)',ph:'90'},
+      {id:'sb_true',lbl:'Show if TRUE',ph:'PASS'},
+      {id:'sb_false',lbl:'Show if FALSE',ph:'FAIL'},
+    ],
+    formula: v=>`=IF(A2>=${v[1]},"${v[2]}","${v[3]}")`,
+    calc: v=>{
+      const score=parseFloat(v[0]),thresh=parseFloat(v[1]),t=v[2]||'TRUE',f=v[3]||'FALSE';
+      if(isNaN(score)||isNaN(thresh)) return {val:'#VALUE!',err:true,explain:'Score and threshold must be numbers.'};
+      const pass=score>=thresh;
+      return {val:pass?t:f,err:false,explain:`IF test: Is ${score} >= ${thresh}? ${pass?'YES → returns "'+t+'"':'NO → returns "'+f+'"'}. The formula =IF(A2>=${thresh},"${t}","${f}") evaluates to "${pass?t:f}".`};
+    },
+    wrong: v=>({val:'Unexpected result',err:true,explain:'Wrong input test: =IF(A2=90,...) uses = (equals exactly). If your score is 90.0 stored as text, the = comparison fails silently and always returns FALSE. Use >= not = for threshold comparisons, and make sure scores are stored as numbers not text.'})
+  },
+  pct:{
+    fields:[
+      {id:'sb_old',lbl:'Previous Value',ph:'1200'},
+      {id:'sb_new',lbl:'New Value',ph:'1450'},
+    ],
+    formula: v=>`=(B2-B1)/B1`,
+    calc: v=>{
+      const o=parseFloat(v[0]),n=parseFloat(v[1]);
+      if(isNaN(o)||isNaN(n)) return {val:'#VALUE!',err:true,explain:'Both fields must be numbers.'};
+      if(o===0) return {val:'#DIV/0!',err:true,explain:'Previous value is 0 — you cannot calculate % change from zero (division by zero). Use IFERROR to handle this case.'};
+      const pct=((n-o)/o*100).toFixed(2);
+      return {val:`${pct>0?'+':''}${pct}%`,err:false,explain:`% Change formula: (${n}-${o})/${o} = ${((n-o)/o).toFixed(4)} → multiply by 100 → ${pct}%. In Excel: =(B2-B1)/B1 then format the cell as Percentage.`};
+    },
+    wrong: v=>({val:'#DIV/0!',err:true,explain:'Wrong input test: if your Previous Value cell is blank or zero, =(New-Old)/Old returns #DIV/0!. Fix: =IFERROR((B2-B1)/B1,0) or check that the prior period actually has data before calculating.'})
+  },
+  concat:{
+    fields:[
+      {id:'sb_first',lbl:'First Name',ph:'Danielle'},
+      {id:'sb_last',lbl:'Last Name',ph:'Torres'},
+    ],
+    formula: v=>`=A2&" "&B2`,
+    calc: v=>{
+      if(!v[0]||!v[1]) return {val:'#VALUE!',err:true,explain:'Both fields needed.'};
+      return {val:`${v[0].trim()} ${v[1].trim()}`,err:false,explain:`Concatenation: "${v[0].trim()}"&" "&"${v[1].trim()}" = "${v[0].trim()} ${v[1].trim()}". The " " in the middle adds the space between names. Without it you'd get DanielleTorres.`};
+    },
+    wrong: v=>({val:'#VALUE!',err:true,explain:'Wrong input test: =A2+B2 on text cells returns #VALUE! — you cannot use + to join text strings. The + operator is for numbers only. Use & for text, or CONCATENATE() / TEXTJOIN() for multiple items.'})
+  },
+  div:{
+    fields:[
+      {id:'sb_num',lbl:'Numerator',ph:'500'},
+      {id:'sb_den',lbl:'Denominator (try 0)',ph:'4'},
+    ],
+    formula: v=>`=A2/B2`,
+    calc: v=>{
+      const n=parseFloat(v[0]),d=parseFloat(v[1]);
+      if(isNaN(n)||isNaN(d)) return {val:'#VALUE!',err:true,explain:'Both must be numbers.'};
+      if(d===0) return {val:'#DIV/0!',err:true,explain:'You divided by zero — classic #DIV/0! error. Excel cannot compute this. Fix: =IFERROR(A2/B2,0) returns 0 instead of the error. Or =IF(B2=0,"N/A",A2/B2) to flag it explicitly.'};
+      return {val:(n/d).toFixed(4),err:false,explain:`${n} ÷ ${d} = ${(n/d).toFixed(4)}. Now try entering 0 as the denominator to see #DIV/0! live.`};
+    },
+    wrong: v=>({val:'#DIV/0!',err:true,explain:'Bad input triggered: denominator = 0. In a real sheet this happens when: the cell is blank (blank = 0 in math), the value is legitimately zero, or data wasn\'t loaded yet. Wrap with IFERROR to handle gracefully.'})
+  },
+  vlookup:{
+    fields:[
+      {id:'sb_table',lbl:'Table data (ID,Name — use ; between rows)',ph:'T-001,Danielle;T-002,Marcus;T-003,Krista'},
+      {id:'sb_key',lbl:'Lookup ID',ph:'T-002'},
+    ],
+    formula: v=>`=VLOOKUP("${v[1]}",A:B,2,FALSE)`,
+    calc: v=>{
+      const rows=v[0].split(';').map(r=>r.split(',').map(s=>s.trim()));
+      const key=v[1].trim();
+      if(!key) return {val:'',err:true,explain:'Enter a lookup value.'};
+      const m=rows.find(r=>r[0]===key);
+      if(!m) return {val:'#N/A',err:true,explain:`#N/A: "${key}" was not found in the table. Check: is the ID spelled exactly right? Is there a space at the start or end? Is one stored as text and the other as a number? Fix: =IFERROR(VLOOKUP(...),"Not Found")`};
+      return {val:m[1],err:false,explain:`VLOOKUP found "${key}" in column A and returned "${m[1]}" from column 2. The FALSE at the end ensures exact match only — no fuzzy matching.`};
+    },
+    wrong: v=>{
+      return {val:'#N/A or wrong name',err:true,explain:'Wrong input test: using TRUE instead of FALSE as the last argument (=VLOOKUP(A2,Table,2,TRUE)) means approximate match. On unsorted data this returns the WRONG name with no error. It silently gives you bad data. Always use FALSE for ID/name lookups.'};
+    }
+  },
+  countif:{
+    fields:[
+      {id:'sb_list',lbl:'Values (comma-separated)',ph:'West,East,West,Central,West,East'},
+      {id:'sb_criteria',lbl:'Count occurrences of',ph:'West'},
+    ],
+    formula: v=>`=COUNTIF(A:A,"${v[1]}")`,
+    calc: v=>{
+      const items=v[0].split(',').map(s=>s.trim());
+      const crit=v[1].trim();
+      if(!crit) return {val:'',err:true,explain:'Enter a value to count.'};
+      const count=items.filter(x=>x.toLowerCase()===crit.toLowerCase()).length;
+      return {val:count,err:false,explain:`COUNTIF scanned ${items.length} values and found "${crit}" ${count} time${count!==1?'s':''}. Note: COUNTIF is case-insensitive — "west" and "WEST" count the same.`};
+    },
+    wrong: v=>({val:'0 (wrong)',err:true,explain:'Wrong input test: =COUNT(IF(A:A="West",1)) without pressing Ctrl+Shift+Enter returns 0 — it\'s a legacy array formula that needs special entry. COUNTIF is the correct tool. Don\'t build manual array formulas for things COUNTIF handles natively.'})
+  }
+};
+
+function sbTypeChange(){
+  const type=document.getElementById('sb-type').value;
+  const cfg=SB_CONFIGS[type];
+  const fields=document.getElementById('sb-fields');
+  document.getElementById('sb-result').style.display='none';
+  if(!cfg){fields.innerHTML='';return}
+  fields.innerHTML=cfg.fields.map(f=>`
+    <div class="try-field">
+      <label>${f.lbl}</label>
+      <input id="${f.id}" type="text" placeholder="${f.ph}" />
+    </div>`).join('');
+}
+
+function getSBVals(){
+  const type=document.getElementById('sb-type').value;
+  const cfg=SB_CONFIGS[type];
+  if(!cfg) return null;
+  return {type,cfg,vals:cfg.fields.map(f=>document.getElementById(f.id)?.value||'')};
+}
+
+function showSBResult(result, formula){
+  const panel=document.getElementById('sb-result');
+  const val=document.getElementById('sb-res-val');
+  const exp=document.getElementById('sb-res-explain');
+  panel.style.display='block';
+  val.textContent=result.val||'(empty)';
+  val.className='res-val'+(result.err?' err':'');
+  exp.innerHTML=(formula?`<strong style="color:var(--yellow);font-family:var(--mono)">${formula}</strong><br><br>`:'') + result.explain;
+}
+
+function runSandbox(){
+  const d=getSBVals();
+  if(!d){alert('Select a formula type first.');return}
+  const result=d.cfg.calc(d.vals);
+  const formula=d.cfg.formula(d.vals);
+  showSBResult(result, formula);
+}
+
+function runWrongSandbox(){
+  const d=getSBVals();
+  if(!d){alert('Select a formula type first.');return}
+  const result=d.cfg.wrong(d.vals);
+  showSBResult(result, null);
+}
+
+</script>
+</body>
+</html>
